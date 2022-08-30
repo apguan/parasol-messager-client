@@ -8,17 +8,7 @@ import ProfileScreen from "../screens/Profile";
 import DetailScreen from "../screens/Detail";
 
 const Stack = createNativeStackNavigator();
-
 const Tab = createBottomTabNavigator();
-
-function MyTabs() {
-  return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
-    </Tab.Navigator>
-  );
-}
 
 export default function RootNavigator() {
   return (
@@ -29,5 +19,14 @@ export default function RootNavigator() {
         <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
+  );
+}
+
+function MyTabs() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Settings" component={SettingsScreen} />
+    </Tab.Navigator>
   );
 }
