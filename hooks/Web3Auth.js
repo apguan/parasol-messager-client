@@ -1,6 +1,6 @@
 // This is necessary as a shim
 global.Buffer = global.Buffer || require("buffer").Buffer;
-import { ENV, WEB3_AUTH_CLIENT_ID } from "@env";
+import { ENV, ETH_RPC, WEB3_AUTH_CLIENT_ID } from "@env";
 
 import { useState, useEffect } from "react";
 import * as WebBrowser from "expo-web-browser";
@@ -32,6 +32,7 @@ export const USER_CREDENTIALS = "__USER_CREDENTIALS";
 export const Web3AuthHook = () => {
   const { saveItem, getItem, deleteItem } = SecureStoreHook();
   const [web3Auth, setWeb3Auth] = useState();
+  const [web3Client, setWeb3Client] = useState();
   const [loggedIn, setLoggedIn] = useState(null);
 
   useEffect(() => {
@@ -77,5 +78,6 @@ export const Web3AuthHook = () => {
     login,
     logout,
     loggedIn,
+    web3Client,
   };
 };

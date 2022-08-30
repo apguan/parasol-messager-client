@@ -10,6 +10,7 @@ import {
   StyleSheet,
 } from "react-native";
 import Toast from "react-native-toast-message";
+import { ethers } from "ethers";
 
 import { Web3AuthHook } from "../hooks/Web3Auth";
 
@@ -19,18 +20,23 @@ export default ProfileScreen = () => {
   const [email, setEmail] = useState();
   const [profileImg, setProfileImg] = useState();
   const [privateKey, setPrivateKey] = useState();
+  const [publicAddress, setPublicAddress] = useState();
 
   useEffect(() => {
     if (loggedIn) {
       const { name, email, profileImage } = loggedIn?.userInfo;
+      const wallet = new ethers.Wallet(loggedIn.privKey);
+
       setName(name);
       setEmail(email);
       setPrivateKey(loggedIn.privKey);
       setProfileImg(profileImage);
+      setPublicAddress(wallet.address);
     } else {
       setName(null);
       setEmail(null);
       setPrivateKey(null);
+      setPublicAddress(null);
       setProfileImg(null);
     }
   }, [loggedIn]);
@@ -53,7 +59,7 @@ export default ProfileScreen = () => {
       visibilityTime: 4000,
     });
   };
-  console.log(profileImg);
+
   return (
     <View style={styles.container}>
       <Toast position="top" bottomOffset={20} />
@@ -67,6 +73,7 @@ export default ProfileScreen = () => {
       />
       <Text>{name}</Text>
       <Text>{email}</Text>
+      <Text>{publicAddress}</Text>
       <Text>{privateKey}</Text>
       <Button title="Connect to account" onPress={showLoggedIn} />
       <Button title="Disconnect" onPress={showLogoutMessage} />
