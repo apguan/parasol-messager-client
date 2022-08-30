@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
-export default DetailScreen = () => {
+export default MessageScreen = () => {
   return (
     <View style={styles.container}>
       <Text>Detail Screen here</Text>

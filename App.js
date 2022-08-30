@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
-import RootNavigator from "./navigation/RootNavigator";
+import { NavigationTabs } from "./navigation/RootNavigator";
 
 export default function App() {
   const [isReady, setIsReady] = useState(true);
@@ -15,5 +15,5 @@ export default function App() {
     return null;
   }
 
-  return <RootNavigator />;
+  return <NavigationTabs />;
 }
