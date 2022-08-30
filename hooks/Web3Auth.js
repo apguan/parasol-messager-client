@@ -27,7 +27,7 @@ const SDK_INIT_CONFIG = {
 
 export const Web3AuthHook = () => {
   const [web3Auth, setWeb3Auth] = useState();
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(null);
 
   useEffect(() => {
     const authProvider = new Web3Auth(WebBrowser, SDK_INIT_CONFIG);
@@ -49,7 +49,7 @@ export const Web3AuthHook = () => {
     });
 
     console.log(result);
-    setLoggedIn(true);
+    setLoggedIn(result.privKey);
     return result;
   };
 
