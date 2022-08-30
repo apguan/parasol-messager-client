@@ -24,6 +24,7 @@
     "expo": "~46.0.9",
     "expo-auth-session": "~3.7.1",
     "expo-random": "~12.3.0",
+    "expo-secure-store": "~11.3.0",
     "expo-splash-screen": "~0.16.1",
     "expo-status-bar": "~1.4.0",
     "expo-web-browser": "~11.0.0",

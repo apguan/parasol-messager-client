@@ -9,6 +9,8 @@ import * as AuthSession from "expo-auth-session";
 import { LOGIN_PROVIDER } from "@web3auth/react-native-sdk";
 import Web3Auth, { OPENLOGIN_NETWORK } from "@web3auth/react-native-sdk";
 
+import { SecureStoreHook } from "./SecureStore";
+
 const whiteLabel = {
   name: "Parasol Messenger",
   logoLight: "http://parasol.xyz/assets/img/Logo%20(@1x).png",
@@ -25,11 +27,22 @@ const SDK_INIT_CONFIG = {
   whiteLabel,
 };
 
+export const USER_CREDENTIALS = "__USER_CREDENTIALS";
+
 export const Web3AuthHook = () => {
+  const { saveItem, getItem, deleteItem } = SecureStoreHook();
   const [web3Auth, setWeb3Auth] = useState();
   const [loggedIn, setLoggedIn] = useState(null);
 
   useEffect(() => {
+    (async () => {
+      const userCredentials = await getItem(USER_CREDENTIALS);
+      if (userCredentials) {
+        setLoggedIn(userCredentials);
+      }
+      console.log("this is the result", userCredentials);
+    })();
+
     const authProvider = new Web3Auth(WebBrowser, SDK_INIT_CONFIG);
     setWeb3Auth(authProvider);
   }, []);
@@ -48,14 +61,15 @@ export const Web3AuthHook = () => {
       redirectUrl,
     });
 
-    console.log(result);
-    setLoggedIn(result.privKey);
+    saveItem(USER_CREDENTIALS, result);
+    setLoggedIn(result);
     return result;
   };
 
   const logout = async () => {
     await auth.logout({ redirectUrl });
-    setLoggedIn(false);
+    deleteItem(USER_CREDENTIALS);
+    setLoggedIn(null);
   };
 
   return {
