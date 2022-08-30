@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
+
 import { NavigationTabs } from "./navigation/RootNavigator";
 
 export default function App() {
@@ -15,5 +16,9 @@ export default function App() {
     return null;
   }
 
-  return <NavigationTabs />;
+  return (
+    <>
+      <NavigationTabs />
+    </>
+  );
 }
