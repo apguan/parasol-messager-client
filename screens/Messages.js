@@ -8,13 +8,16 @@ import {
   Dimensions,
   StyleSheet,
 } from "react-native";
-import { StatusBar } from "expo-status-bar";
+import { SupabaseInterface } from "../hooks/Supabase";
 
 export default MessageScreen = () => {
+  const { supabaseClient } = SupabaseInterface();
+
   return (
     <View style={styles.container}>
-      <Text>Detail Screen here</Text>
-      <StatusBar style="auto" />
+      <ScrollView>
+        <Text>Detail Screen here</Text>
+      </ScrollView>
     </View>
   );
 };

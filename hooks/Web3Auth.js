@@ -1,6 +1,6 @@
 // This is necessary as a shim
 global.Buffer = global.Buffer || require("buffer").Buffer;
-import { ENV, ETH_RPC, WEB3_AUTH_CLIENT_ID } from "@env";
+import { ENV, WEB3_AUTH_CLIENT_ID } from "@env";
 
 import { useState, useEffect } from "react";
 import * as WebBrowser from "expo-web-browser";
