@@ -20,16 +20,18 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, options);
 
 export const SupabaseInterface = () => {
   const [rooms, setRooms] = useState([]);
-  const [messages, setMessages] = useState();
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     getRooms();
   }, []);
 
   useEffect(() => {
-    const subscription = roomsSubscription();
+    roomsSubscription();
+    messageSubscription();
+
     return () => {
-      supabase.removeChannel(subscription);
+      supabase.removeAllChannels();
     };
   }, [supabase]);
 
@@ -55,6 +57,20 @@ export const SupabaseInterface = () => {
       .subscribe();
   }, [rooms]);
 
+  const messageSubscription = useCallback(() => {
+    return supabase.channel("public:messages").on(
+      "postgres_changes",
+      {
+        event: "INSERT",
+        schema: "public",
+        table: "messages",
+      },
+      (payload) => {
+        setMessages([...messages, payload]);
+      }
+    );
+  }, [messages]);
+
   const makeRoom = async (name, owner) => {
     const { data, error } = await supabase.from("rooms").insert([
       {
@@ -79,7 +95,15 @@ export const SupabaseInterface = () => {
     return data;
   };
 
-  const sendMessage = async () => {
+  const sendMessage = async (roomId, message, walletIsConnected) => {
+    await supabase.from("messages").insert([
+      {
+        message,
+        room_id: roomId,
+        connected_wallet: walletIsConnected,
+      },
+    ]);
+
     return;
   };
 

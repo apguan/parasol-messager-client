@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   ScrollView,
   Text,
@@ -9,7 +9,7 @@ import {
   StyleSheet,
   Touchable,
 } from "react-native";
-import { SupabaseInterface } from "../hooks/Supabase";
+import { MessagingContext } from "../context/Messages";
 import RoomListItem from "../components/RoomListItem";
 
 const lastMessage = {
@@ -21,11 +21,13 @@ const lastMessage = {
 };
 
 export default RoomScreen = ({ navigation }) => {
-  const { rooms } = SupabaseInterface();
+  const { supabase, rooms, makeRoom, getMessages, sendMessage } =
+    useContext(MessagingContext);
 
-  const goToRoomId = (roomId) => {
+  const goToRoomId = (roomId, chatName) => {
     navigation.navigate("Messages", {
       roomId,
+      chatName,
     });
   };
 
@@ -36,7 +38,7 @@ export default RoomScreen = ({ navigation }) => {
           return (
             <TouchableOpacity
               key={room.room_id}
-              onPress={() => goToRoomId(room.room_id)}
+              onPress={() => goToRoomId(room.room_id, room.name)}
             >
               <RoomListItem
                 name={room.name}

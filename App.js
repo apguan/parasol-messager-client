@@ -6,6 +6,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
 
 import { RootNavigator } from "./navigation/RootNavigator";
+import { MessagingProvider } from "./context/Messages";
 
 export default function App() {
   const [isReady, setIsReady] = useState(true);
@@ -22,7 +23,9 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <RootNavigator />
+      <MessagingProvider>
+        <RootNavigator />
+      </MessagingProvider>
     </NavigationContainer>
   );
 }

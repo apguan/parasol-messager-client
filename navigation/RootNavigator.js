@@ -63,8 +63,20 @@ export const RootNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="Rooms">
       <Stack.Screen name="Rooms" component={NavigationTabs} />
-      <Stack.Screen name="Messages" component={MessagesScreen} />
-      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen
+        name="Messages"
+        component={MessagesScreen}
+        options={({ route }) => ({
+          title: route.params.chatName,
+        })}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={({ route }) => ({
+          title: "Settings",
+        })}
+      />
     </Stack.Navigator>
   );
 };
