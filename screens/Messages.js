@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   ScrollView,
   Text,
@@ -10,13 +10,27 @@ import {
 } from "react-native";
 import { SupabaseInterface } from "../hooks/Supabase";
 
-export default MessageScreen = () => {
-  const { supabaseClient } = SupabaseInterface();
+export default MessagesScreen = ({ navigation, route }) => {
+  const { getMessages } = SupabaseInterface();
+  const { roomId } = route.params;
+
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      const msgs = await getMessages(roomId);
+      setMessages(msgs || []);
+    };
+
+    fetchMessages();
+  }, []);
 
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <Text>Detail Screen here</Text>
+      <ScrollView style={styles.scrollView}>
+        {messages.map((message) => {
+          return <Text key={message.id}>{message.message}</Text>;
+        })}
       </ScrollView>
     </View>
   );
@@ -28,5 +42,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  scrollView: {
+    flex: 1,
+    width: "100%",
+    borderWidth: 2,
   },
 });
