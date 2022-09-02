@@ -2,13 +2,12 @@ import React from "react";
 import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import TimeAgo from "react-native-timeago";
 
-export default RoomListItem = ({ name, owner, lastMessage }) => {
+export default RoomListItem = ({ name, lastMessage }) => {
   return (
     <View>
-      <Text>{owner}</Text>
       <Text>{name}</Text>
-      <Text>{lastMessage.text}</Text>
-      <TimeAgo time={lastMessage.createdAt} />
+      <Text>{lastMessage.message}</Text>
+      {lastMessage.created_at && <TimeAgo time={lastMessage.created_at} />}
     </View>
   );
 };

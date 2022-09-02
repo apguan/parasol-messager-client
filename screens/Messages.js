@@ -16,8 +16,7 @@ import { MessagingContext } from "../context/Messages";
 export default MessagesScreen = ({ navigation, route }) => {
   const { roomId } = route.params;
 
-  const { supabase, rooms, makeRoom, getMessages, sendMessage } =
-    useContext(MessagingContext);
+  const { getMessages, sendMessage } = useContext(MessagingContext);
 
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");

@@ -1,39 +1,24 @@
 //shim for `Error: URLSearchParams.set is not implemented`
 import "react-native-url-polyfill/auto";
 
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from "@env";
-
 import { useState, useEffect, useCallback } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { createClient } from "@supabase/supabase-js";
 
-const options = {
-  auth: {
-    storage: AsyncStorage,
-    autoRefreshToken: true,
-    persistSession: true,
-  },
-  detectSessionInUrl: false,
-};
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, options);
-
-export const SupabaseInterface = () => {
+export default SupabaseInterface = (supabase) => {
   const [rooms, setRooms] = useState([]);
   const [messages, setMessages] = useState([]);
+  const [sortedMessages, setSortedMessages] = useState({});
 
   useEffect(() => {
     getRooms();
-  }, []);
+    getAllMessages();
 
-  useEffect(() => {
     roomsSubscription();
     messageSubscription();
 
     return () => {
       supabase.removeAllChannels();
     };
-  }, [supabase]);
+  }, []);
 
   const getRooms = async () => {
     const { data, error } = await supabase.from("rooms").select();
@@ -84,6 +69,21 @@ export const SupabaseInterface = () => {
     return data;
   };
 
+  const getAllMessages = async () => {
+    const { data, error } = await supabase.from("messages").select("*");
+
+    if (error) return error;
+
+    const sorted = data.reduce((acc, val) => {
+      acc[val.room_id]
+        ? (acc[val.room_id] = [...acc[val.room_id], val])
+        : (acc[val.room_id] = [val]);
+      return acc;
+    }, {});
+
+    setSortedMessages(sorted);
+  };
+
   const getMessages = async (roomId) => {
     const { data, error } = await supabase
       .from("messages")
@@ -107,5 +107,5 @@ export const SupabaseInterface = () => {
     return;
   };
 
-  return { supabase, rooms, makeRoom, getMessages, sendMessage };
+  return { rooms, sortedMessages, makeRoom, getMessages, sendMessage };
 };

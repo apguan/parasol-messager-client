@@ -21,8 +21,7 @@ const lastMessage = {
 };
 
 export default RoomScreen = ({ navigation }) => {
-  const { supabase, rooms, makeRoom, getMessages, sendMessage } =
-    useContext(MessagingContext);
+  const { rooms, sortedMessages } = useContext(MessagingContext);
 
   const goToRoomId = (roomId, chatName) => {
     navigation.navigate("Messages", {
@@ -35,15 +34,20 @@ export default RoomScreen = ({ navigation }) => {
     <View style={styles.container}>
       <ScrollView style={styles.scrollView}>
         {rooms.map((room) => {
+          const roomMessages = sortedMessages[room.room_id];
+          const lastMessageToDisplay = roomMessages
+            ? roomMessages[roomMessages.length - 1]
+            : {};
+
           return (
             <TouchableOpacity
+              style={{ padding: 10 }}
               key={room.room_id}
               onPress={() => goToRoomId(room.room_id, room.name)}
             >
               <RoomListItem
                 name={room.name}
-                owner={room.owner}
-                lastMessage={lastMessage}
+                lastMessage={lastMessageToDisplay}
               />
             </TouchableOpacity>
           );
