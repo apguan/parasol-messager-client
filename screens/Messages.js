@@ -9,10 +9,9 @@ import { MessagingContext } from "../context/Messages";
 export default MessagesScreen = ({ navigation, route }) => {
   const { roomId } = route.params;
 
-  const { getMessages, sendMessage } = useContext(MessagingContext);
+  const { getMessages } = useContext(MessagingContext);
 
   const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -24,7 +23,7 @@ export default MessagesScreen = ({ navigation, route }) => {
   }, []);
 
   return (
-    <View style={{ width: "100%", height: "100%" }}>
+    <View style={styles.container}>
       <FlatList
         data={messages}
         renderItem={({ item }) => (
@@ -38,10 +37,7 @@ export default MessagesScreen = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
+  container: { flex: 1, width: "100%", height: "100%", paddingBottom: 20 },
   scrollView: {
     flex: 1,
     width: "100%",

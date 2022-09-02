@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   Text,
@@ -17,11 +17,11 @@ import {
   Fontisto,
 } from "@expo/vector-icons";
 
-export default InputBox = (props) => {
-  const { chatRoomID } = props;
+import { MessagingContext } from "../context/Messages";
 
+export default InputBox = ({ chatRoomID }) => {
+  const { getMessages } = useContext(MessagingContext);
   const [message, setMessage] = useState("");
-  const [myUserId, setMyUserId] = useState(null);
 
   const onMicrophonePress = () => {
     console.warn("Microphone");
