@@ -1,15 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  ScrollView,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  Dimensions,
-  KeyboardAvoidingView,
-  StyleSheet,
-  TextInput,
-} from "react-native";
+import { FlatList, View, StyleSheet } from "react-native";
+
+import InputBox from "../components/ChatInput";
+import ChatMessage from "../components/MessageItem";
 
 import { MessagingContext } from "../context/Messages";
 
@@ -31,24 +24,16 @@ export default MessagesScreen = ({ navigation, route }) => {
   }, []);
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="height">
-      <ScrollView style={styles.scrollView}>
-        {messages.map((message) => {
-          return (
-            <Text style={styles.messageView} key={message.id}>
-              {message.message}
-            </Text>
-          );
-        })}
-      </ScrollView>
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.input}
-          onChangeText={setMessage}
-          value={message}
-        />
-      </View>
-    </KeyboardAvoidingView>
+    <View style={{ width: "100%", height: "100%" }}>
+      <FlatList
+        data={messages}
+        renderItem={({ item }) => (
+          <ChatMessage owner={"hotdoghelper"} message={item} />
+        )}
+        inverted
+      />
+      <InputBox chatRoomID={route.params.id} />
+    </View>
   );
 };
 
@@ -56,8 +41,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
   },
   scrollView: {
     flex: 1,
