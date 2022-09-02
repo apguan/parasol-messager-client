@@ -6,11 +6,16 @@ export default ChatMessage = (props) => {
   const { message, owner } = props;
 
   const isMyMessage = () => {
-    return message.username === owner;
+    return message.username !== owner;
   };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        { flexDirection: isMyMessage() ? "row-reverse" : "row" },
+      ]}
+    >
       <View
         style={[
           styles.messageBox,
@@ -21,7 +26,9 @@ export default ChatMessage = (props) => {
           },
         ]}
       >
-        {!isMyMessage() && <Text style={styles.name}>{message.username}</Text>}
+        <Text style={styles.name}>
+          {isMyMessage() ? "Me" : message.username}
+        </Text>
         <Text style={styles.message}>{message.message}</Text>
         <Text style={styles.time}>{moment(message.created_at).fromNow()}</Text>
       </View>
@@ -31,9 +38,10 @@ export default ChatMessage = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    padding: 5,
   },
   messageBox: {
+    maxWidth: "90%",
     borderRadius: 5,
     padding: 10,
   },

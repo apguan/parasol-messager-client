@@ -20,7 +20,7 @@ import {
 import { MessagingContext } from "../context/Messages";
 
 export default InputBox = ({ chatRoomID }) => {
-  const { getMessages } = useContext(MessagingContext);
+  const { sendMessage } = useContext(MessagingContext);
   const [message, setMessage] = useState("");
 
   const onMicrophonePress = () => {
@@ -29,13 +29,15 @@ export default InputBox = ({ chatRoomID }) => {
 
   const updateChatRoomLastMessage = async (messageId) => {};
 
-  const onSendPress = async () => {};
-
-  const onPress = () => {
-    if (!message) {
-      onMicrophonePress();
-    } else {
-      onSendPress();
+  const onSendPress = async () => {
+    if (message) {
+      const result = await sendMessage(
+        chatRoomID,
+        "NEEDTOADDNAME",
+        message,
+        true
+      );
+      setMessage("");
     }
   };
 
@@ -55,7 +57,7 @@ export default InputBox = ({ chatRoomID }) => {
             value={message}
             onChangeText={setMessage}
           />
-          <Entypo
+          {/* <Entypo
             name="attachment"
             size={24}
             color="grey"
@@ -68,19 +70,13 @@ export default InputBox = ({ chatRoomID }) => {
               color="grey"
               style={styles.icon}
             />
-          )}
+          )} */}
         </View>
-        <TouchableOpacity onPress={onPress}>
-          <View style={styles.buttonContainer}>
-            {!message ? (
-              <MaterialCommunityIcons
-                name="microphone"
-                size={28}
-                color="white"
-              />
-            ) : (
-              <MaterialIcons name="send" size={28} color="white" />
-            )}
+        <TouchableOpacity onPress={onSendPress} disabled={!message}>
+          <View
+            style={[styles.buttonContainer, { opacity: !message ? 0.5 : 1 }]}
+          >
+            <MaterialIcons name="send" size={28} color="white" />
           </View>
         </TouchableOpacity>
       </View>
@@ -90,21 +86,23 @@ export default InputBox = ({ chatRoomID }) => {
 
 const styles = StyleSheet.create({
   container: {
+    margin: 15,
     flexDirection: "row",
-    margin: 10,
     alignItems: "flex-end",
   },
   mainContainer: {
+    flex: 1,
     flexDirection: "row",
     backgroundColor: "white",
-    padding: 10,
+    padding: 13,
     borderRadius: 25,
     marginRight: 10,
-    flex: 1,
     alignItems: "flex-end",
+    justifyContent: "center",
   },
   textInput: {
     flex: 1,
+    fontSize: 16,
     marginHorizontal: 10,
   },
   icon: {

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   ScrollView,
   Text,
@@ -21,9 +21,15 @@ const lastMessage = {
 };
 
 export default RoomScreen = ({ navigation }) => {
-  const { rooms, sortedMessages } = useContext(MessagingContext);
+  const { rooms, sortedMessages, getAllMessages, setCurrentRoom } =
+    useContext(MessagingContext);
+
+  useEffect(() => {
+    getAllMessages();
+  }, [rooms]);
 
   const goToRoomId = (roomId, chatName) => {
+    setCurrentRoom(roomId);
     navigation.navigate("Messages", {
       roomId,
       chatName,

@@ -8,43 +8,31 @@ import { MessagingContext } from "../context/Messages";
 
 export default MessagesScreen = ({ navigation, route }) => {
   const { roomId } = route.params;
-
-  const { getMessages } = useContext(MessagingContext);
-
-  const [messages, setMessages] = useState([]);
-
-  useEffect(() => {
-    const fetchMessages = async () => {
-      const msgs = await getMessages(roomId);
-      setMessages(msgs || []);
-    };
-
-    fetchMessages();
-  }, []);
+  const { sortedMessages, currentRoom } = useContext(MessagingContext);
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={messages}
+        style={[styles.scrollView]}
+        data={(sortedMessages[currentRoom] || []).reverse()}
         renderItem={({ item }) => (
           <ChatMessage owner={"hotdoghelper"} message={item} />
         )}
         inverted
       />
-      <InputBox chatRoomID={route.params.id} />
+      <InputBox chatRoomID={roomId} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, width: "100%", height: "100%", paddingBottom: 20 },
-  scrollView: {
+  container: {
     flex: 1,
     width: "100%",
-    borderWidth: 2,
-    padding: 5,
-    backgroundColor: "red",
+    height: "100%",
+    paddingBottom: 20,
   },
+  scrollView: { marginHorizontal: 10 },
   messageView: {
     flex: 1,
     width: "75%",
