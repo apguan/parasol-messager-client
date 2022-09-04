@@ -38,6 +38,7 @@ export const Web3AuthHook = () => {
   useEffect(() => {
     (async () => {
       const userCredentials = await getItem(USER_CREDENTIALS);
+
       if (userCredentials) {
         setLoggedIn(userCredentials);
       }

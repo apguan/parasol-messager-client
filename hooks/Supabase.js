@@ -7,6 +7,7 @@ export default SupabaseInterface = (supabase) => {
   const [rooms, setRooms] = useState([]);
   const [currentRoom, setCurrentRoom] = useState("");
   const [sortedMessages, setSortedMessages] = useState({});
+  const [usersOnline, setUsersOnline] = useState({});
 
   useEffect(() => {
     getRooms();
@@ -21,6 +22,29 @@ export default SupabaseInterface = (supabase) => {
       supabase.removeAllChannels();
     };
   }, []);
+
+  useEffect(() => {
+    presenceSubscription();
+  }, [currentRoom]);
+
+  const presenceSubscription = () => {
+    const channel = supabase.channel("online-users");
+    return channel
+      .on("presence", { event: "*" }, () => {
+        const usersArr = [].concat(...Object.values(channel.presenceState()));
+        const roomBuckets = usersArr.reduce((acc, val) => {
+          acc[val.room]
+            ? (acc[val.room] = [...acc[val.room], val])
+            : (acc[val.room] = [val]);
+          return acc;
+        }, {});
+
+        setUsersOnline(roomBuckets);
+      })
+      .subscribe(async (status) => {
+        await channel.track({ username: "hotdoghelper", room: currentRoom });
+      });
+  };
 
   const getRooms = async () => {
     const { data, error } = await supabase.from("rooms").select();
@@ -112,6 +136,7 @@ export default SupabaseInterface = (supabase) => {
     rooms,
     currentRoom,
     sortedMessages,
+    usersOnline,
     getRooms,
     setCurrentRoom,
     makeRoom,

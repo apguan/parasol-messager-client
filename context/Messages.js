@@ -9,6 +9,7 @@ import SupabaseInterface from "../hooks/Supabase";
 const defaultValues = {
   rooms: [],
   currentRoom: "",
+  usersOnline: {},
   getRooms: null,
   setCurrentRoom: null,
   makeRooms: null,
@@ -36,6 +37,7 @@ export const MessagingProvider = ({ children }) => {
     rooms,
     currentRoom,
     sortedMessages,
+    usersOnline,
     getRooms,
     setCurrentRoom,
     makeRoom,
@@ -46,9 +48,11 @@ export const MessagingProvider = ({ children }) => {
   return (
     <MessagingContext.Provider
       value={{
+        supabase,
         rooms,
         currentRoom,
         sortedMessages,
+        usersOnline,
         getRooms,
         setCurrentRoom,
         makeRoom,

@@ -21,7 +21,6 @@ const NavigationTabs = () => {
         activeBackgroundColor: "#454ADE",
       }}
       appearance={{
-        floating: true,
         shadow: true,
         tabButtonLayout: "vertical",
       }}

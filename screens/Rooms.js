@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import {
-  ScrollView,
+  FlatList,
   Text,
   View,
   TouchableOpacity,
@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { MessagingContext } from "../context/Messages";
 import RoomListItem from "../components/RoomListItem";
+import { useFocusEffect } from "@react-navigation/native";
 
 const lastMessage = {
   username: "hotdoghelper",
@@ -21,8 +22,12 @@ const lastMessage = {
 };
 
 export default RoomScreen = ({ navigation }) => {
-  const { rooms, sortedMessages, getAllMessages, setCurrentRoom } =
+  const { rooms, sortedMessages, getAllMessages, setCurrentRoom, usersOnline } =
     useContext(MessagingContext);
+
+  useFocusEffect(() => {
+    setCurrentRoom("");
+  });
 
   useEffect(() => {
     getAllMessages();
@@ -38,27 +43,32 @@ export default RoomScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.scrollView}>
-        {rooms.map((room) => {
-          const roomMessages = sortedMessages[room.room_id];
+      <FlatList
+        style={styles.scrollView}
+        data={rooms}
+        keyExtractor={(room) => room.room_id}
+        renderItem={({ item }) => {
+          const roomMessages = sortedMessages[item.room_id];
           const lastMessageToDisplay = roomMessages
             ? roomMessages[roomMessages.length - 1]
             : {};
 
+          const usersInRoom = usersOnline[item.room_id];
+
           return (
             <TouchableOpacity
               style={{ padding: 10 }}
-              key={room.room_id}
-              onPress={() => goToRoomId(room.room_id, room.name)}
+              onPress={() => goToRoomId(item.room_id, item.name)}
             >
               <RoomListItem
-                name={room.name}
+                name={item.name}
                 lastMessage={lastMessageToDisplay}
+                usersInRoom={usersInRoom}
               />
             </TouchableOpacity>
           );
-        })}
-      </ScrollView>
+        }}
+      />
     </View>
   );
 };
@@ -73,6 +83,5 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
     width: "100%",
-    borderWidth: 2,
   },
 });
