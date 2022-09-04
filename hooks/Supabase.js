@@ -30,7 +30,7 @@ export default SupabaseInterface = (supabase) => {
   const presenceSubscription = () => {
     const channel = supabase.channel("online-users");
     return channel
-      .on("presence", { event: "*" }, () => {
+      .on("presence", { event: "sync" }, () => {
         const usersArr = [].concat(...Object.values(channel.presenceState()));
         const roomBuckets = usersArr.reduce((acc, val) => {
           acc[val.room]
@@ -78,7 +78,6 @@ export default SupabaseInterface = (supabase) => {
           table: "messages",
         },
         () => {
-          console.log("hit");
           getRooms();
           getAllMessages();
         }

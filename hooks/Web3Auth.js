@@ -42,7 +42,6 @@ export const Web3AuthHook = () => {
       if (userCredentials) {
         setLoggedIn(userCredentials);
       }
-      console.log("this is the result", userCredentials);
     })();
 
     const authProvider = new Web3Auth(WebBrowser, SDK_INIT_CONFIG);

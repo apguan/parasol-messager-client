@@ -2,11 +2,11 @@ import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import moment from "moment";
 
-export default ChatMessage = (props) => {
-  const { message, owner } = props;
+import { Web3AuthHook } from "../hooks/Web3Auth";
 
+export default ChatMessage = ({ message, owner }) => {
   const isMyMessage = () => {
-    return message.username !== owner;
+    return message.username === owner;
   };
 
   return (
@@ -20,13 +20,13 @@ export default ChatMessage = (props) => {
         style={[
           styles.messageBox,
           {
-            backgroundColor: isMyMessage() ? "#DCF8C5" : "white",
+            backgroundColor: isMyMessage() ? "white" : "#81BCF9",
             marginLeft: isMyMessage() ? 50 : 0,
             marginRight: isMyMessage() ? 0 : 50,
           },
         ]}
       >
-        <Text style={styles.name}>
+        <Text style={[styles.name, { color: "#5B6269" }]}>
           {isMyMessage() ? "Me" : message.username}
         </Text>
         <Text style={styles.message}>{message.message}</Text>
@@ -43,15 +43,15 @@ const styles = StyleSheet.create({
   messageBox: {
     maxWidth: "90%",
     borderRadius: 5,
-    padding: 10,
+    padding: 15,
   },
   name: {
-    color: "red",
     fontWeight: "bold",
     marginBottom: 5,
   },
   message: {},
   time: {
+    paddingVertical: 1,
     alignSelf: "flex-end",
     color: "grey",
   },

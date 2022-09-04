@@ -5,22 +5,24 @@ import InputBox from "../components/ChatInput";
 import ChatMessage from "../components/MessageItem";
 
 import { MessagingContext } from "../context/Messages";
+import { Web3AuthHook } from "../hooks/Web3Auth";
 
 export default MessagesScreen = ({ navigation, route }) => {
   const { roomId } = route.params;
   const { sortedMessages, currentRoom } = useContext(MessagingContext);
+  const { loggedIn } = Web3AuthHook();
+
+  const me = loggedIn?.userInfo?.email;
 
   return (
     <View style={styles.container}>
       <FlatList
         style={[styles.scrollView]}
         data={(sortedMessages[currentRoom] || []).reverse()}
-        renderItem={({ item }) => (
-          <ChatMessage owner={"hotdoghelper"} message={item} />
-        )}
+        renderItem={({ item }) => <ChatMessage owner={me} message={item} />}
         inverted
       />
-      <InputBox chatRoomID={roomId} />
+      <InputBox chatRoomID={roomId} owner={me} />
     </View>
   );
 };

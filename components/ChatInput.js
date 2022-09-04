@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import {
   View,
-  Text,
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
@@ -9,34 +8,17 @@ import {
   StyleSheet,
 } from "react-native";
 
-import {
-  MaterialCommunityIcons,
-  MaterialIcons,
-  FontAwesome5,
-  Entypo,
-  Fontisto,
-} from "@expo/vector-icons";
+import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
 
 import { MessagingContext } from "../context/Messages";
 
-export default InputBox = ({ chatRoomID }) => {
+export default InputBox = ({ chatRoomID, owner }) => {
   const { sendMessage } = useContext(MessagingContext);
   const [message, setMessage] = useState("");
 
-  const onMicrophonePress = () => {
-    console.warn("Microphone");
-  };
-
-  const updateChatRoomLastMessage = async (messageId) => {};
-
   const onSendPress = async () => {
     if (message) {
-      const result = await sendMessage(
-        chatRoomID,
-        "NEEDTOADDNAME",
-        message,
-        true
-      );
+      const result = await sendMessage(chatRoomID, owner, message, true);
       setMessage("");
     }
   };

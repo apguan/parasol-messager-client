@@ -13,13 +13,6 @@ import { MessagingContext } from "../context/Messages";
 import RoomListItem from "../components/RoomListItem";
 import { useFocusEffect } from "@react-navigation/native";
 
-const lastMessage = {
-  username: "hotdoghelper",
-  message: "this is the first message!",
-  created_at: "2022-08-31 08:12:32+00",
-  connected_wallet: true,
-  is_deleted: false,
-};
 
 export default RoomScreen = ({ navigation }) => {
   const { rooms, sortedMessages, getAllMessages, setCurrentRoom, usersOnline } =
@@ -57,7 +50,6 @@ export default RoomScreen = ({ navigation }) => {
 
           return (
             <TouchableOpacity
-              style={{ padding: 10 }}
               onPress={() => goToRoomId(item.room_id, item.name)}
             >
               <RoomListItem
