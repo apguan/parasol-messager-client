@@ -42,9 +42,7 @@ export default RoomScreen = ({ navigation }) => {
         keyExtractor={(room) => room.room_id}
         renderItem={({ item }) => {
           const roomMessages = sortedMessages[item.room_id];
-          const lastMessageToDisplay = roomMessages
-            ? roomMessages[roomMessages.length - 1]
-            : {};
+          const lastMessageToDisplay = roomMessages ? roomMessages[0] : {};
 
           const usersInRoom = usersOnline[item.room_id];
 

@@ -18,7 +18,7 @@ export default MessagesScreen = ({ navigation, route }) => {
     <View style={styles.container}>
       <FlatList
         style={[styles.scrollView]}
-        data={(sortedMessages[currentRoom] || []).reverse()}
+        data={sortedMessages[currentRoom] || []}
         renderItem={({ item }) => <ChatMessage owner={me} message={item} />}
         inverted
       />

@@ -108,7 +108,7 @@ export default SupabaseInterface = (supabase) => {
 
     const sorted = data.reduce((acc, val) => {
       acc[val.room_id]
-        ? (acc[val.room_id] = [...acc[val.room_id], val])
+        ? (acc[val.room_id] = [val, ...acc[val.room_id]])
         : (acc[val.room_id] = [val].filter(Boolean));
       return acc;
     }, {});
