@@ -5,13 +5,12 @@ import {
   View,
   TouchableOpacity,
   Button,
-  Image,
-  Dimensions,
   StyleSheet,
 } from "react-native";
 import Toast from "react-native-toast-message";
 import { ethers } from "ethers";
 
+import ProfileCard from "../components/ProfileCard";
 import { Web3AuthHook } from "../hooks/Web3Auth";
 
 export default ProfileScreen = () => {
@@ -61,35 +60,31 @@ export default ProfileScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <Toast position="top" bottomOffset={20} />
-      <Image
-        style={styles.tinyLogo}
-        source={{
-          uri:
-            profileImg ||
-            "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y",
-        }}
+      <ProfileCard
+        profileImage={
+          profileImg ||
+          "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
+        }
+        name={name}
+        email={email}
+        publicAddress={publicAddress}
+        privateKey={privateKey}
       />
-      <Text>{name}</Text>
-      <Text>{email}</Text>
-      <Text>{publicAddress}</Text>
-      <Text>{privateKey}</Text>
       <Button title="Connect to account" onPress={showLoggedIn} />
       <Button title="Disconnect" onPress={showLogoutMessage} />
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: "100%",
     backgroundColor: "#fff",
+  },
+  content: {
     alignItems: "center",
     justifyContent: "center",
-  },
-  tinyLogo: {
-    width: 50,
-    height: 50,
   },
 });

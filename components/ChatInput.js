@@ -8,8 +8,7 @@ import {
   StyleSheet,
 } from "react-native";
 
-import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
-
+import { MaterialIcons } from "@expo/vector-icons";
 import { MessagingContext } from "../context/Messages";
 
 export default InputBox = ({ chatRoomID, owner }) => {
@@ -18,7 +17,7 @@ export default InputBox = ({ chatRoomID, owner }) => {
 
   const onSendPress = async () => {
     if (message) {
-      const result = await sendMessage(chatRoomID, owner, message, true);
+      await sendMessage(chatRoomID, owner, message); //TODO: add in wallet address from User context
       setMessage("");
     }
   };
@@ -31,7 +30,7 @@ export default InputBox = ({ chatRoomID, owner }) => {
     >
       <View style={styles.container}>
         <View style={styles.mainContainer}>
-          <FontAwesome5 name="laugh-beam" size={24} color="grey" />
+          {/* <FontAwesome5 name="laugh-beam" size={24} color="grey" /> */}
           <TextInput
             placeholder={"Type a message"}
             style={styles.textInput}

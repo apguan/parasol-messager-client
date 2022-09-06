@@ -122,10 +122,10 @@ export default SupabaseInterface = (supabase) => {
         username,
         message,
         room_id: roomId,
-        connected_wallet: walletIsConnected,
+        ...(walletIsConnected && { connected_wallet: walletIsConnected }),
       },
     ]);
-
+    console.log(data, error);
     if (error) return error;
 
     return data;

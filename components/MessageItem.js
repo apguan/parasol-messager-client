@@ -2,8 +2,6 @@ import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import moment from "moment";
 
-import { Web3AuthHook } from "../hooks/Web3Auth";
-
 export default ChatMessage = ({ message, owner }) => {
   const isMyMessage = () => {
     return message.username === owner;
