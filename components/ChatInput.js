@@ -7,7 +7,6 @@ import {
   Platform,
   StyleSheet,
 } from "react-native";
-
 import { MaterialIcons } from "@expo/vector-icons";
 import { MessagingContext } from "../context/Messages";
 
@@ -55,7 +54,7 @@ export default InputBox = ({ chatRoomID, owner }) => {
         </View>
         <TouchableOpacity onPress={onSendPress} disabled={!message}>
           <View
-            style={[styles.buttonContainer, { opacity: !message ? 0.5 : 1 }]}
+            style={[styles.buttonContainer, { opacity: !message ? 0.25 : 1 }]}
           >
             <MaterialIcons name="send" size={28} color="white" />
           </View>
@@ -90,11 +89,18 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   buttonContainer: {
-    backgroundColor: "blue",
+    backgroundColor: "rgb(69, 169, 222)",
     borderRadius: 25,
     width: 50,
     height: 50,
     justifyContent: "center",
     alignItems: "center",
   },
+  // shadow: {
+  //   shadowColor: "rgb(69, 169, 222)",
+  //   shadowOffset: { width: 1, height: 1 },
+  //   shadowOpacity: 1,
+  //   shadowRadius: 2,
+  //   elevation: 4,
+  // },
 });

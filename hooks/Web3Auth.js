@@ -33,14 +33,14 @@ export const Web3AuthHook = () => {
   const { saveItem, getItem, deleteItem } = SecureStoreHook();
   const [web3Auth, setWeb3Auth] = useState();
   const [web3Client, setWeb3Client] = useState();
-  const [loggedIn, setLoggedIn] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
     (async () => {
       const userCredentials = await getItem(USER_CREDENTIALS);
 
       if (userCredentials) {
-        setLoggedIn(userCredentials);
+        setUserInfo(userCredentials);
       }
     })();
 
@@ -62,22 +62,26 @@ export const Web3AuthHook = () => {
       redirectUrl,
     });
 
-    saveItem(USER_CREDENTIALS, result);
-    setLoggedIn(result);
-    return result;
+    if (result) {
+      await saveItem(USER_CREDENTIALS, result);
+      setUserInfo(result);
+      return result;
+    }
+
+    return null;
   };
 
   const logout = async () => {
     await auth.logout({ redirectUrl });
-    deleteItem(USER_CREDENTIALS);
-    setLoggedIn(null);
+    await deleteItem(USER_CREDENTIALS);
+
+    setUserInfo(null);
   };
 
   return {
-    web3Auth,
     login,
     logout,
-    loggedIn,
+    userInfo,
     web3Client,
   };
 };

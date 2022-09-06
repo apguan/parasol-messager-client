@@ -27,7 +27,7 @@ export const SecureStoreHook = () => {
       return false;
     }
 
-    return true;
+    await SecureStore.deleteItemAsync(key);
   };
 
   return {

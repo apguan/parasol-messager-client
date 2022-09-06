@@ -125,7 +125,7 @@ export default SupabaseInterface = (supabase) => {
         ...(walletIsConnected && { connected_wallet: walletIsConnected }),
       },
     ]);
-    console.log(data, error);
+
     if (error) return error;
 
     return data;

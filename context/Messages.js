@@ -28,7 +28,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
 
 export const MessagingContext = createContext(defaultValues);
 
-export const MessagingProvider = ({ children }) => {
+export default MessagingProvider = ({ children }) => {
   if (!supabase) {
     return null;
   }

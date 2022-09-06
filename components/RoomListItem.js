@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FlatList, View, Text, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -14,11 +14,17 @@ const COLORS = [
   "#E09775",
 ];
 
-const randomColorPicker = () => {
-  return Math.round(COLORS.length * Math.random());
-};
-
 export default RoomListItem = ({ name, lastMessage, usersInRoom }) => {
+  const [color, setColor] = useState(0);
+
+  useEffect(() => {
+    setColor(randomColorPicker());
+  }, []);
+
+  const randomColorPicker = () => {
+    return Math.round(COLORS.length * Math.random());
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>{name}</Text>
@@ -28,11 +34,7 @@ export default RoomListItem = ({ name, lastMessage, usersInRoom }) => {
           data={usersInRoom}
           renderItem={({ item }) => {
             return (
-              <Ionicons
-                name="person-circle"
-                size={20}
-                color={COLORS[randomColorPicker()]}
-              />
+              <Ionicons name="person-circle" size={24} color={COLORS[color]} />
             );
           }}
           horizontal
@@ -41,7 +43,11 @@ export default RoomListItem = ({ name, lastMessage, usersInRoom }) => {
       <Text style={styles.lastMessage} numberOfLines={1} ellipsizeMode="tail">
         {lastMessage.message || "Come be the conversation starter!"}
       </Text>
-      {lastMessage.created_at && <TimeAgo time={lastMessage.created_at} />}
+      {lastMessage.created_at && (
+        <Text>
+          Active <TimeAgo time={lastMessage.created_at} />
+        </Text>
+      )}
     </View>
   );
 };
@@ -49,16 +55,16 @@ export default RoomListItem = ({ name, lastMessage, usersInRoom }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 10,
-    marginHorizontal: 10,
+    marginTop: 15,
+    marginHorizontal: 15,
     borderRadius: 10,
     borderWidth: 5,
     padding: 10,
   },
   onlineIndicator: { height: 20 },
   header: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 24,
+    fontFamily: "rt-mono-bold",
   },
   lastMessage: {
     width: "100%",

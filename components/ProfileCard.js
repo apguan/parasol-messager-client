@@ -21,6 +21,7 @@ export default ProfileCard = ({
   const checksumAddress = (address) => {
     return address && ethers.utils.getAddress(address);
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.infoContainer}>
@@ -31,20 +32,28 @@ export default ProfileCard = ({
           }}
         />
         <View style={{ marginLeft: 20 }}>
-          <Text style={styles.info}>Welcome back,</Text>
-          <Text style={styles.info}>{name}!</Text>
+          <Text style={styles.info}>{name ? "Welcome back," : "Sign In"}</Text>
+          {name && <Text style={styles.info}>{name}!</Text>}
         </View>
       </View>
-      <View>
-        <Text>Public Address</Text>
-        <Text>{checksumAddress(publicAddress)}</Text>
+      <View style={styles.addressContainer}>
+        <Text style={styles.addressHeader}>Public Address</Text>
+        <Text style={styles.addressBody}>{checksumAddress(publicAddress)}</Text>
       </View>
-      <View style={{ width: "80%" }}>
+      <View style={styles.addressContainer}>
+        <Text style={styles.addressHeader}>Private Key</Text>
         <TouchableOpacity
           onPress={() => setPrivateKeyMode((prevState) => !prevState)}
+          style={[{ height: 90 }]}
         >
-          <Text>Private Key</Text>
-          <Text numberOfLines={1} ellipsizeMode="middle">
+          <Text
+            style={[
+              styles.addressBody,
+              privateKey && privateKeyMode && { fontSize: 22 },
+            ]}
+            numberOfLines={5}
+            ellipsizeMode="middle"
+          >
             {starOutPrivateKey()}
           </Text>
         </TouchableOpacity>
@@ -57,8 +66,8 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     justifyContent: "center",
-    height: 250,
     alignItems: "center",
+    marginVertical: 100,
   },
   infoContainer: {
     flexDirection: "row",
@@ -66,13 +75,28 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   profileImg: {
-    width: 100,
-    height: 100,
+    width: 80,
+    height: 80,
     borderRadius: 100,
   },
   info: {
     padding: 2,
-    fontWeight: "bold",
+    minWidth: "60%",
+    fontFamily: "rt-mono-bold",
     fontSize: 32,
+  },
+  addressContainer: {
+    width: "80%",
+    marginVertical: 10,
+  },
+  addressHeader: {
+    fontSize: 18,
+    marginBottom: 5,
+    fontFamily: "rt-mono-bold",
+    textTransform: "lowercase",
+  },
+  addressBody: {
+    fontSize: 18,
+    fontFamily: "rt-mono-med",
   },
 });

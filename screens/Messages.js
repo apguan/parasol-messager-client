@@ -5,14 +5,15 @@ import InputBox from "../components/ChatInput";
 import ChatMessage from "../components/MessageItem";
 
 import { MessagingContext } from "../context/Messages";
+import { UserContext } from "../context/User";
 import { Web3AuthHook } from "../hooks/Web3Auth";
 
 export default MessagesScreen = ({ navigation, route }) => {
   const { roomId } = route.params;
   const { sortedMessages, currentRoom } = useContext(MessagingContext);
-  const { loggedIn } = Web3AuthHook();
+  const { userInfo } = useContext(UserContext);
 
-  const me = loggedIn?.userInfo?.email;
+  const me = userInfo?.userInfo?.email;
 
   return (
     <View style={styles.container}>
