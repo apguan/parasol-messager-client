@@ -9,7 +9,7 @@ import * as AuthSession from "expo-auth-session";
 import { LOGIN_PROVIDER } from "@web3auth/react-native-sdk";
 import Web3Auth, { OPENLOGIN_NETWORK } from "@web3auth/react-native-sdk";
 
-import { SecureStoreHook } from "./SecureStore";
+import { SecureStoreHook } from "../utils/SecureStore";
 
 const whiteLabel = {
   name: "Parasol Messenger",

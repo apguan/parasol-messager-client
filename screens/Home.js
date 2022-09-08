@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  ScrollView,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  Dimensions,
-  StyleSheet,
-} from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
 export default HomeScreen = () => {

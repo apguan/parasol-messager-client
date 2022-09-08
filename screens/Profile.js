@@ -1,12 +1,5 @@
 import React, { useContext } from "react";
-import {
-  ScrollView,
-  Text,
-  View,
-  TouchableOpacity,
-  Button,
-  StyleSheet,
-} from "react-native";
+import { ScrollView, Button, StyleSheet } from "react-native";
 import Toast from "react-native-toast-message";
 
 import { UserContext } from "../context/User";

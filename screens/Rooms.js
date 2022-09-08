@@ -1,21 +1,12 @@
 import React, { useContext, useEffect } from "react";
-import {
-  FlatList,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  Dimensions,
-  StyleSheet,
-  Touchable,
-} from "react-native";
+import { FlatList, View, TouchableOpacity, StyleSheet } from "react-native";
 import { MessagingContext } from "../context/Messages";
 import RoomListItem from "../components/RoomListItem";
 import { useFocusEffect } from "@react-navigation/native";
 
 
 export default RoomScreen = ({ navigation }) => {
-  const { sortedMessages, getAllMessages, setCurrentRoom, usersOnline } =
+  const { rooms, sortedMessages, getAllMessages, setCurrentRoom, usersOnline } =
     useContext(MessagingContext);
 
   useFocusEffect(() => {
