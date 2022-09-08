@@ -1,8 +1,4 @@
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from "@env";
-import { createContext, useEffect, useState } from "react";
-
-import { createClient } from "@supabase/supabase-js";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createContext } from "react";
 
 import SupabaseInterface from "../hooks/Supabase";
 
@@ -16,23 +12,9 @@ const defaultValues = {
   sendMessage: null,
   sortedMessages: {},
 };
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  auth: {
-    storage: AsyncStorage,
-    autoRefreshToken: true,
-    persistSession: true,
-  },
-  detectSessionInUrl: false,
-});
-
 export const MessagingContext = createContext(defaultValues);
 
 export default MessagingProvider = ({ children }) => {
-  if (!supabase) {
-    return null;
-  }
-
   const {
     rooms,
     currentRoom,
@@ -43,12 +25,11 @@ export default MessagingProvider = ({ children }) => {
     makeRoom,
     getAllMessages,
     sendMessage,
-  } = SupabaseInterface(supabase);
+  } = SupabaseInterface();
 
   return (
     <MessagingContext.Provider
       value={{
-        supabase,
         rooms,
         currentRoom,
         sortedMessages,

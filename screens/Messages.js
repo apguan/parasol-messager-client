@@ -10,8 +10,9 @@ import { Web3AuthHook } from "../hooks/Web3Auth";
 
 export default MessagesScreen = ({ navigation, route }) => {
   const { roomId } = route.params;
-  const { sortedMessages, currentRoom } = useContext(MessagingContext);
+  
   const { userInfo } = useContext(UserContext);
+  const { sortedMessages, currentRoom } = useContext(MessagingContext);
 
   const me = userInfo?.userInfo?.email;
 

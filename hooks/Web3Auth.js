@@ -32,7 +32,6 @@ export const USER_CREDENTIALS = "__USER_CREDENTIALS";
 export const Web3AuthHook = () => {
   const { saveItem, getItem, deleteItem } = SecureStoreHook();
   const [web3Auth, setWeb3Auth] = useState();
-  const [web3Client, setWeb3Client] = useState();
   const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
@@ -54,10 +53,8 @@ export const Web3AuthHook = () => {
     path: "redirect",
   });
 
-  const auth = web3Auth;
-
   const login = async () => {
-    const result = await auth.login({
+    const result = await web3Auth.login({
       loginProvider: LOGIN_PROVIDER.GOOGLE,
       redirectUrl,
     });
@@ -72,7 +69,7 @@ export const Web3AuthHook = () => {
   };
 
   const logout = async () => {
-    await auth.logout({ redirectUrl });
+    await web3Auth.logout({ redirectUrl });
     await deleteItem(USER_CREDENTIALS);
 
     setUserInfo(null);
@@ -82,6 +79,6 @@ export const Web3AuthHook = () => {
     login,
     logout,
     userInfo,
-    web3Client,
+    web3Auth,
   };
 };

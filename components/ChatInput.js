@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   TextInput,
@@ -7,18 +7,40 @@ import {
   Platform,
   StyleSheet,
 } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+
+import Safe from "../hooks/Multisig";
+import SupabaseInterface from "../hooks/Supabase";
 import { MessagingContext } from "../context/Messages";
+import { UserContext } from "../context/User";
 
 export default InputBox = ({ chatRoomID, owner }) => {
   const { sendMessage } = useContext(MessagingContext);
+  const { userInfo } = useContext(UserContext);
+  const { createProxy } = Safe(userInfo, chatRoomID);
+  const { roomHasMultiSigWallet } = SupabaseInterface();
+
   const [message, setMessage] = useState("");
+  const [canCreateMultisig, setCanCreateMultisig] = useState();
+
+  useEffect(() => {
+    (async () => {
+      const result = await roomHasMultiSigWallet(chatRoomID);
+      setCanCreateMultisig(
+        Boolean(Array.isArray(result) && result.length === 0)
+      );
+    })();
+  }, []);
 
   const onSendPress = async () => {
     if (message) {
       await sendMessage(chatRoomID, owner, message); //TODO: add in wallet address from User context
       setMessage("");
     }
+  };
+
+  const createSafe = () => {
+    createProxy();
   };
 
   return (
@@ -29,7 +51,20 @@ export default InputBox = ({ chatRoomID, owner }) => {
     >
       <View style={styles.container}>
         <View style={styles.mainContainer}>
-          {/* <FontAwesome5 name="laugh-beam" size={24} color="grey" /> */}
+          {canCreateMultisig ? (
+            <MaterialCommunityIcons
+              name="safe-square-outline"
+              onPress={createSafe}
+              size={24}
+              color="grey"
+            />
+          ) : (
+            <MaterialCommunityIcons
+              name="vote-outline"
+              size={24}
+              color="grey"
+            />
+          )}
           <TextInput
             placeholder={"Type a message"}
             style={styles.textInput}

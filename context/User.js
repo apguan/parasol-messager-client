@@ -29,11 +29,11 @@ export default UserProvider = ({ children }) => {
   useEffect(() => {
     if (userInfo) {
       const { name, email, profileImage } = userInfo?.userInfo;
-      const wallet = new ethers.Wallet(userInfo.privKey);
+      const wallet = new ethers.Wallet(userInfo?.privKey);
 
       setName(name);
       setEmail(email);
-      setPrivateKey(userInfo.privKey);
+      setPrivateKey(userInfo?.privKey);
       setProfileImage(profileImage);
       setPublicAddress(wallet.address);
     } else {

@@ -2,8 +2,20 @@
 import "react-native-url-polyfill/auto";
 
 import { useState, useEffect, useCallback } from "react";
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from "@env";
+import { createClient } from "@supabase/supabase-js";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default SupabaseInterface = (supabase) => {
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: {
+    storage: AsyncStorage,
+    autoRefreshToken: true,
+    persistSession: true,
+  },
+  detectSessionInUrl: false,
+});
+
+export default SupabaseInterface = () => {
   const [rooms, setRooms] = useState([]);
   const [currentRoom, setCurrentRoom] = useState("");
   const [sortedMessages, setSortedMessages] = useState({});
@@ -46,14 +58,6 @@ export default SupabaseInterface = (supabase) => {
       });
   };
 
-  const getRooms = async () => {
-    const { data, error } = await supabase.from("rooms").select();
-
-    if (error) return error;
-
-    setRooms([...data]);
-  };
-
   const roomsSubscription = () => {
     return supabase
       .channel("public:rooms")
@@ -65,6 +69,14 @@ export default SupabaseInterface = (supabase) => {
         }
       )
       .subscribe();
+  };
+
+  const getRooms = async () => {
+    const { data, error } = await supabase.from("rooms").select();
+
+    if (error) return error;
+
+    setRooms([...data]);
   };
 
   const messageSubscription = useCallback(() => {
@@ -116,15 +128,53 @@ export default SupabaseInterface = (supabase) => {
     setSortedMessages({ ...sorted });
   };
 
-  const sendMessage = async (roomId, username, message, walletIsConnected) => {
+  const sendMessage = async (room_id, username, message, walletIsConnected) => {
     const { data, error } = await supabase.from("messages").insert([
       {
         username,
         message,
-        room_id: roomId,
+        room_id,
         ...(walletIsConnected && { connected_wallet: walletIsConnected }),
       },
     ]);
+
+    if (error) return error;
+
+    return data;
+  };
+
+  const saveTransactionHash = async (transaction_hash, room) => {
+    const { data, error } = await supabase.from("multisig_wallet").insert([
+      {
+        transaction_hash,
+        room,
+      },
+    ]);
+
+    if (error) return error;
+
+    return data;
+  };
+
+  const saveMultiSigWalletAddress = async (
+    wallet_address,
+    transaction_hash
+  ) => {
+    const { data, error } = await supabase
+      .from("multisig_wallet")
+      .update({ wallet_address })
+      .match({ transaction_hash });
+
+    if (error) return error;
+
+    return data;
+  };
+
+  const roomHasMultiSigWallet = async (room) => {
+    const { data, error } = await supabase
+      .from("multisig_wallet")
+      .select("*")
+      .match({ room });
 
     if (error) return error;
 
@@ -141,6 +191,9 @@ export default SupabaseInterface = (supabase) => {
     makeRoom,
     getAllMessages,
     sendMessage,
+    saveTransactionHash,
+    saveMultiSigWalletAddress,
+    roomHasMultiSigWallet,
   };
 };
 
