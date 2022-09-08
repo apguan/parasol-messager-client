@@ -15,7 +15,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 
 export default RoomScreen = ({ navigation }) => {
-  const { rooms, sortedMessages, getAllMessages, setCurrentRoom, usersOnline } =
+  const { sortedMessages, getAllMessages, setCurrentRoom, usersOnline } =
     useContext(MessagingContext);
 
   useFocusEffect(() => {

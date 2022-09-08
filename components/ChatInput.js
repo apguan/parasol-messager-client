@@ -10,7 +10,6 @@ import {
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 import Safe from "../hooks/Multisig";
-import SupabaseInterface from "../hooks/Supabase";
 import { MessagingContext } from "../context/Messages";
 import { UserContext } from "../context/User";
 
@@ -29,7 +28,6 @@ export default InputBox = ({ chatRoomID, owner }) => {
     saveTransactionHash,
     saveMultiSigWalletAddress
   );
-
 
   const [message, setMessage] = useState("");
   const [canCreateMultisig, setCanCreateMultisig] = useState();

@@ -1,5 +1,4 @@
 import { ethers, Wallet, Contract } from "ethers";
-import SupabaseInterface from "./Supabase";
 
 import SafeProxyJson from "../multisig/safe-proxy.json";
 
