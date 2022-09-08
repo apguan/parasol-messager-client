@@ -103,7 +103,7 @@ export default SupabaseInterface = () => {
         (payload) => {
           setSortedMessages((oldState) => {
             const roomId = payload.new?.room_id;
-            const oldRoomMessages = oldState[roomId];
+            const oldRoomMessages = oldState[roomId] || [];
             const updatedRoomMessages = [payload.new, ...oldRoomMessages];
 
             return {
