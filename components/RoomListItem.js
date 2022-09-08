@@ -41,9 +41,10 @@ export default RoomListItem = ({ name, lastMessage, usersInRoom }) => {
         />
       )}
       <Text style={styles.lastMessage} numberOfLines={1} ellipsizeMode="tail">
-        {lastMessage.message || "Come be the conversation starter!"}
+        {(lastMessage && lastMessage.message) ||
+          "Come be the conversation starter!"}
       </Text>
-      {lastMessage.created_at && (
+      {lastMessage && lastMessage.created_at && (
         <Text>
           Active <TimeAgo time={lastMessage.created_at} />
         </Text>

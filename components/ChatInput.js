@@ -15,10 +15,21 @@ import { MessagingContext } from "../context/Messages";
 import { UserContext } from "../context/User";
 
 export default InputBox = ({ chatRoomID, owner }) => {
-  const { sendMessage } = useContext(MessagingContext);
+  const {
+    sendMessage,
+    saveTransactionHash,
+    saveMultiSigWalletAddress,
+    roomHasMultiSigWallet,
+  } = useContext(MessagingContext);
   const { userInfo } = useContext(UserContext);
-  const { createProxy } = Safe(userInfo, chatRoomID);
-  const { roomHasMultiSigWallet } = SupabaseInterface();
+
+  const { createProxy } = Safe(
+    userInfo,
+    chatRoomID,
+    saveTransactionHash,
+    saveMultiSigWalletAddress
+  );
+
 
   const [message, setMessage] = useState("");
   const [canCreateMultisig, setCanCreateMultisig] = useState();
@@ -131,11 +142,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  // shadow: {
-  //   shadowColor: "rgb(69, 169, 222)",
-  //   shadowOffset: { width: 1, height: 1 },
-  //   shadowOpacity: 1,
-  //   shadowRadius: 2,
-  //   elevation: 4,
-  // },
+
 });

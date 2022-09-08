@@ -6,10 +6,12 @@ import SafeProxyJson from "../multisig/safe-proxy.json";
 const RINKEBY_RPC_PROVIDER =
   "https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161";
 
-export default Safe = (userInfo, roomId) => {
-  const { saveTransactionHash, saveMultiSigWalletAddress } =
-    SupabaseInterface();
-
+export default Safe = (
+  userInfo,
+  roomId,
+  saveTransactionHash,
+  saveMultiSigWalletAddress
+) => {
   const provider = new ethers.providers.JsonRpcProvider(RINKEBY_RPC_PROVIDER);
   const signerAccount = new Wallet(userInfo?.privKey, provider);
   const publicAddress = signerAccount.address;

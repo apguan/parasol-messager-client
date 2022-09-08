@@ -10,6 +10,9 @@ const defaultValues = {
   setCurrentRoom: null,
   makeRooms: null,
   sendMessage: null,
+  saveTransactionHash: null,
+  saveMultiSigWalletAddress: null,
+  roomHasMultiSigWallet: null,
   sortedMessages: {},
 };
 export const MessagingContext = createContext(defaultValues);
@@ -25,6 +28,9 @@ export default MessagingProvider = ({ children }) => {
     makeRoom,
     getAllMessages,
     sendMessage,
+    saveTransactionHash,
+    saveMultiSigWalletAddress,
+    roomHasMultiSigWallet,
   } = SupabaseInterface();
 
   return (
@@ -39,6 +45,9 @@ export default MessagingProvider = ({ children }) => {
         makeRoom,
         getAllMessages,
         sendMessage,
+        saveTransactionHash,
+        saveMultiSigWalletAddress,
+        roomHasMultiSigWallet,
       }}
     >
       {children}

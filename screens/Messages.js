@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { FlatList, View, StyleSheet } from "react-native";
 
 import InputBox from "../components/ChatInput";
@@ -6,11 +6,10 @@ import ChatMessage from "../components/MessageItem";
 
 import { MessagingContext } from "../context/Messages";
 import { UserContext } from "../context/User";
-import { Web3AuthHook } from "../hooks/Web3Auth";
 
 export default MessagesScreen = ({ navigation, route }) => {
   const { roomId } = route.params;
-  
+
   const { userInfo } = useContext(UserContext);
   const { sortedMessages, currentRoom } = useContext(MessagingContext);
 

@@ -1,21 +1,25 @@
 //shim for `Error: URLSearchParams.set is not implemented`
 import "react-native-url-polyfill/auto";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from "@env";
 import { createClient } from "@supabase/supabase-js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  auth: {
-    storage: AsyncStorage,
-    autoRefreshToken: true,
-    persistSession: true,
-  },
-  detectSessionInUrl: false,
-});
-
 export default SupabaseInterface = () => {
+  const supabase = useMemo(
+    () =>
+      createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+        auth: {
+          storage: AsyncStorage,
+          autoRefreshToken: true,
+          persistSession: true,
+        },
+        detectSessionInUrl: false,
+      }),
+    []
+  );
+
   const [rooms, setRooms] = useState([]);
   const [currentRoom, setCurrentRoom] = useState("");
   const [sortedMessages, setSortedMessages] = useState({});
@@ -43,7 +47,8 @@ export default SupabaseInterface = () => {
     const channel = supabase.channel("online-users");
     return channel
       .on("presence", { event: "sync" }, () => {
-        const usersArr = [].concat(...Object.values(channel.presenceState()));
+        const state = channel.presenceState();
+        const usersArr = [].concat(...Object.values(state));
         const roomBuckets = usersArr.reduce((acc, val) => {
           acc[val.room]
             ? (acc[val.room] = [...acc[val.room], val])
@@ -54,7 +59,7 @@ export default SupabaseInterface = () => {
         setUsersOnline(roomBuckets);
       })
       .subscribe(async (status) => {
-        await channel.track({ username: "hotdoghelper", room: currentRoom });
+        await channel.track({ room: currentRoom });
       });
   };
 
@@ -76,7 +81,13 @@ export default SupabaseInterface = () => {
 
     if (error) return error;
 
-    setRooms([...data]);
+    const setup = data.reduce((acc, val) => {
+      acc[val.room_id] ? null : (acc[val.room_id] = []);
+      return acc;
+    }, {});
+
+    setSortedMessages(setup);
+    setRooms(data);
   };
 
   const messageSubscription = useCallback(() => {
@@ -85,13 +96,21 @@ export default SupabaseInterface = () => {
       .on(
         "postgres_changes",
         {
-          event: "*",
+          event: "INSERT",
           schema: "public",
           table: "messages",
         },
-        () => {
-          getRooms();
-          getAllMessages();
+        (payload) => {
+          setSortedMessages((oldState) => {
+            const roomId = payload.new?.room_id;
+            const oldRoomMessages = oldState[roomId];
+            const updatedRoomMessages = [payload.new, ...oldRoomMessages];
+
+            return {
+              ...oldState,
+              [roomId]: updatedRoomMessages,
+            };
+          });
         }
       )
       .subscribe();
