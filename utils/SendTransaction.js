@@ -5,6 +5,13 @@ export default Transact = (userInfo) => {
   const provider = new ethers.providers.JsonRpcProvider(RINKEBY_RPC_PROVIDER);
   const signerAccount = new Wallet(userInfo?.privKey, provider);
 
+  const getBalance = async () => {
+    const balance = await provider.getBalance(signerAccount.address);
+    const balanceInEth = ethers.utils.formatEther(balance);
+
+    return balanceInEth;
+  }; 
+
   const sendEth = async (amount, receiverAddress) => {
     // Create a transaction object
     const txnObj = {
@@ -25,5 +32,5 @@ export default Transact = (userInfo) => {
     return receipt.logs[0].address;
   };
 
-  return { sendEth };
+  return { sendEth, getBalance };
 };

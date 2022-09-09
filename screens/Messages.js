@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FlatList, View, StyleSheet } from "react-native";
 
 import ChatInput from "../components/ChatInput";
@@ -13,7 +13,24 @@ export default MessagesScreen = ({ navigation, route }) => {
   const { userInfo } = useContext(UserContext);
   const { sortedMessages, currentRoom } = useContext(MessagingContext);
 
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    dedupe();
+  }, []);
+
   const me = userInfo?.userInfo?.email;
+
+  const dedupe = () => {
+    const uniqueAddresses = (sortedMessages[currentRoom] || []).reduce(
+      (acc, val) => {
+        acc[val.connected_wallet] = val.username;
+        return acc;
+      },
+      {}
+    );
+    setUsers(uniqueAddresses);
+  };
 
   return (
     <View style={styles.container}>
@@ -23,7 +40,12 @@ export default MessagesScreen = ({ navigation, route }) => {
         renderItem={({ item }) => <ChatMessage owner={me} message={item} />}
         inverted
       />
-      <ChatInput chatRoomID={roomId} owner={me} navigation={navigation} />
+      <ChatInput
+        chatRoomID={roomId}
+        owner={me}
+        navigation={navigation}
+        userAddresss={users}
+      />
     </View>
   );
 };

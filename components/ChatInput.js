@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
 import {
   View,
   TextInput,
@@ -6,10 +6,12 @@ import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
+  Image,
 } from "react-native";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 import ChatModal from "./ChatModal";
+import TransactionModal from "./TransactionModal";
 import Safe from "../utils/Multisig";
 import { MessagingContext } from "../context/Messages";
 import { UserContext } from "../context/User";
@@ -32,6 +34,7 @@ export default ChatInput = ({ navigation, chatRoomID, owner }) => {
 
   const [canCreateMultisig, setCanCreateMultisig] = useState(false);
   const [createSafeLoading, setCreateSafeLoading] = useState(false);
+  const [isTransacting, setIsTransacting] = useState(false);
   const [address, setAddress] = useState("");
 
   const [message, setMessage] = useState("");
@@ -107,6 +110,10 @@ export default ChatInput = ({ navigation, chatRoomID, owner }) => {
     >
       <View style={styles.container}>
         <ChatModal isVisible={createSafeLoading} address={address} />
+        <TransactionModal
+          isTransacting={isTransacting}
+          setIsTransacting={setIsTransacting}
+        />
         <View style={styles.mainContainer}>
           <TextInput
             placeholder={"Type a message"}
@@ -115,6 +122,13 @@ export default ChatInput = ({ navigation, chatRoomID, owner }) => {
             value={message}
             onChangeText={setMessage}
           />
+          <TouchableOpacity onPress={() => setIsTransacting(true)}>
+            <Image
+              source={require("../assets/cryptocurrency.png")}
+              height={24}
+              width={24}
+            />
+          </TouchableOpacity>
           {/* <Entypo
             name="attachment"
             size={24}
