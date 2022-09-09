@@ -28,7 +28,6 @@ export default RoomModal = ({ isMakingRoom, setIsMakingRoom, makeRoom }) => {
   const submit = async () => {
     if (name) {
       const result = await makeRoom(name, email);
-      console.log(result);
       if (!result) {
         setName("");
         setCharLeft(LIMIT);

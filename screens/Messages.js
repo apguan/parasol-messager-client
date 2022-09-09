@@ -13,11 +13,11 @@ export default MessagesScreen = ({ navigation, route }) => {
   const { userInfo } = useContext(UserContext);
   const { sortedMessages, currentRoom } = useContext(MessagingContext);
 
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState({});
 
   useEffect(() => {
-    dedupe();
-  }, []);
+    setUsers(dedupe());
+  }, [sortedMessages]);
 
   const me = userInfo?.userInfo?.email;
 
@@ -29,7 +29,7 @@ export default MessagesScreen = ({ navigation, route }) => {
       },
       {}
     );
-    setUsers(uniqueAddresses);
+    return uniqueAddresses;
   };
 
   return (
@@ -44,7 +44,7 @@ export default MessagesScreen = ({ navigation, route }) => {
         chatRoomID={roomId}
         owner={me}
         navigation={navigation}
-        userAddresss={users}
+        userAddresses={users}
       />
     </View>
   );

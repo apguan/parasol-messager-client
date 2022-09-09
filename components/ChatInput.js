@@ -16,7 +16,12 @@ import Safe from "../utils/Multisig";
 import { MessagingContext } from "../context/Messages";
 import { UserContext } from "../context/User";
 
-export default ChatInput = ({ navigation, chatRoomID, owner }) => {
+export default ChatInput = ({
+  navigation,
+  chatRoomID,
+  owner,
+  userAddresses,
+}) => {
   const {
     sendMessage,
     saveTransactionHash,
@@ -113,6 +118,7 @@ export default ChatInput = ({ navigation, chatRoomID, owner }) => {
         <TransactionModal
           isTransacting={isTransacting}
           setIsTransacting={setIsTransacting}
+          userAddresses={userAddresses}
         />
         <View style={styles.mainContainer}>
           <TextInput

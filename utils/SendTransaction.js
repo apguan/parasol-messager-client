@@ -19,7 +19,7 @@ export default Transact = (userInfo) => {
       value: ethers.utils.parseEther(amount),
     };
 
-    const result = await wallet.sendTransaction(txnObj);
+    const result = await signerAccount.sendTransaction(txnObj);
     const txnHash = result.hash;
 
     let receipt = await provider.getTransactionReceipt(txnHash);
@@ -29,7 +29,7 @@ export default Transact = (userInfo) => {
       receipt = await provider.getTransactionReceipt(txnHash);
     }
 
-    return receipt.logs[0].address;
+    return receipt;
   };
 
   return { sendEth, getBalance };

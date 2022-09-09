@@ -8,31 +8,50 @@ import {
   StyleSheet,
 } from "react-native";
 
+import DropDownPicker from "react-native-dropdown-picker";
+
 import { UserContext } from "../context/User";
 import SendTransaction from "../utils/SendTransaction";
 
 export default TransactionModal = ({
   isTransacting,
   setIsTransacting,
-  userAddresss,
+  userAddresses,
 }) => {
   const { userInfo } = useContext(UserContext);
   const { getBalance, sendEth } = SendTransaction(userInfo);
   const [amount, setAmount] = useState(0);
   const [balance, setBalance] = useState(0);
 
+  const [open, setOpen] = useState(false);
+  const [dropDown, setDropdown] = useState([]);
+  const [receiverAddress, setReceiverAddress] = useState("");
+
   useEffect(() => {
     (async () => {
       const balance = await getBalance();
       setBalance(balance);
     })();
-  }, []);
+
+    const dropdownArr =
+      userAddresses &&
+      Object.entries(userAddresses).map(([key, val]) => ({
+        label: val,
+        value: key,
+      }));
+
+    setDropdown(dropdownArr);
+  }, [userAddresses]);
 
   const submit = async () => {
-    sendEth(balance);
-    if (amount) {
-      console.log(result);
-      setIsTransacting(false);
+    if (amount && receiverAddress) {
+      const receipt = await sendEth(amount, receiverAddress);
+
+      if (receipt) {
+        setReceiverAddress("");
+        setAmount(0);
+        setIsTransacting(false);
+      }
     }
   };
 
@@ -58,10 +77,36 @@ export default TransactionModal = ({
           keyboardType={"numeric"}
           placeholder="Amount"
         />
+        <Text style={[styles.title, { marginVertical: 20 }]}>to...</Text>
+        <DropDownPicker
+          style={{
+            width: "60%",
+            marginLeft: "20%",
+            borderWidth: 2,
+            fontFamily: "rt-mono-bold",
+            fontSize: 24,
+          }}
+          placeholder={"Pick a recipient"}
+          items={dropDown}
+          setValue={setReceiverAddress}
+          value={receiverAddress}
+          setOpen={setOpen}
+          open={open}
+          dropDownContainerStyle={{
+            width: "60%",
+            marginLeft: "20%",
+            borderWidth: 2,
+            fontFamily: "rt-mono-bold",
+            fontSize: 24,
+          }}
+        />
         <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={submit} disabled={!Boolean(amount)}>
+          <TouchableOpacity
+            onPress={submit}
+            disabled={!Boolean(amount && receiverAddress)}
+          >
             <Text style={[styles.buttonStyle, { color: "#1681FF" }]}>
-              Create
+              Submit
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={cancel}>
@@ -75,7 +120,7 @@ export default TransactionModal = ({
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: "50%",
+    marginTop: "30%",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -113,7 +158,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   buttonContainer: {
-    marginTop: 20,
+    marginTop: 40,
     width: "50%",
     justifyContent: "space-between",
     flexDirection: "row-reverse",
