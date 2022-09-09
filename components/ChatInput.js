@@ -9,9 +9,11 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
+import ChatModal from "./ChatModal";
 import Safe from "../hooks/Multisig";
 import { MessagingContext } from "../context/Messages";
 import { UserContext } from "../context/User";
+import { add } from "react-native-reanimated";
 
 export default InputBox = ({ chatRoomID, owner }) => {
   const {
@@ -29,15 +31,21 @@ export default InputBox = ({ chatRoomID, owner }) => {
     saveMultiSigWalletAddress
   );
 
+  const [canCreateMultisig, setCanCreateMultisig] = useState(false);
+  const [createSafeLoading, setCreateSafeLoading] = useState(false);
+  const [address, setAddress] = useState("");
+
   const [message, setMessage] = useState("");
-  const [canCreateMultisig, setCanCreateMultisig] = useState();
 
   useEffect(() => {
     (async () => {
       const result = await roomHasMultiSigWallet(chatRoomID);
-      setCanCreateMultisig(
-        Boolean(Array.isArray(result) && result.length === 0)
-      );
+      const hasWallet = Boolean(Array.isArray(result) && result.length === 0);
+
+      if (hasWallet) {
+        setAddress(result[0].wallet_address);
+        setCanCreateMultisig(hasWallet);
+      }
     })();
   }, []);
 
@@ -48,8 +56,17 @@ export default InputBox = ({ chatRoomID, owner }) => {
     }
   };
 
-  const createSafe = () => {
-    createProxy();
+  const createSafe = async () => {
+    setCreateSafeLoading(true);
+    const address = await createProxy();
+
+    if (address) {
+      setAddress(address);
+      const timer = setTimeout(() => {
+        setCanCreateMultisig(false);
+        setCreateSafeLoading(false);
+      }, 2000);
+    }
   };
 
   return (
@@ -59,6 +76,7 @@ export default InputBox = ({ chatRoomID, owner }) => {
       style={{ width: "100%" }}
     >
       <View style={styles.container}>
+        <ChatModal isVisible={createSafeLoading} address={address} />
         <View style={styles.mainContainer}>
           {canCreateMultisig ? (
             <MaterialCommunityIcons
