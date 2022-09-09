@@ -1,18 +1,22 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { AnimatedTabBarNavigator } from "react-native-animated-nav-tab-bar";
+import { Modal } from "react-native";
 
-// import { AntDesign } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
+import { Feather, AntDesign } from "@expo/vector-icons";
 
 import ProfileScreen from "../screens/Profile";
 import RoomScreen from "../screens/Rooms";
 import MessagesScreen from "../screens/Messages";
 
+import { MessagingContext } from "../context/Messages";
+
 const Stack = createNativeStackNavigator();
 const Tabs = AnimatedTabBarNavigator();
 
-const NavigationTabs = () => {
+const NavigationTabs = ({ navigation }) => {
+  const { setIsMakingRoom } = useContext(MessagingContext);
+
   return (
     <Tabs.Navigator
       tabBarOptions={{
@@ -29,29 +33,52 @@ const NavigationTabs = () => {
         name="Chats"
         component={RoomScreen}
         options={{
-          tabBarIcon: ({ focused, color, size }) => (
-            <Feather
-              name="message-circle"
-              size={size}
-              color={focused ? color : "#222222"}
-              focused={focused}
-            />
-          ),
-          headerShown: false,
+          tabBarIcon: ({ focused, color, size }) => {
+            if (focused) {
+              navigation.setOptions({
+                title: "Rooms",
+                headerRight: () => (
+                  <AntDesign
+                    name="pluscircleo"
+                    size={24}
+                    color="black"
+                    onPress={() => setIsMakingRoom(true)}
+                  />
+                ),
+              });
+            }
+
+            return (
+              <Feather
+                name="message-circle"
+                size={size}
+                color={focused ? color : "#222222"}
+                focused={focused}
+              />
+            );
+          },
         }}
       />
       <Tabs.Screen
         name="Settings"
         component={ProfileScreen}
         options={{
-          tabBarIcon: ({ focused, color, size }) => (
-            <Feather
-              name="settings"
-              size={size}
-              color={focused ? color : "#222222"}
-              focused={focused}
-            />
-          ),
+          tabBarIcon: ({ focused, color, size }) => {
+            if (focused) {
+              navigation.setOptions({
+                title: "Settings",
+              });
+            }
+
+            return (
+              <Feather
+                name="settings"
+                size={size}
+                color={focused ? color : "#222222"}
+                focused={focused}
+              />
+            );
+          },
         }}
       />
     </Tabs.Navigator>

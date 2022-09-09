@@ -21,7 +21,7 @@ export default ChatInput = ({ navigation, chatRoomID, owner }) => {
     saveMultiSigWalletAddress,
     roomHasMultiSigWallet,
   } = useContext(MessagingContext);
-  const { userInfo } = useContext(UserContext);
+  const { userInfo, publicAddress } = useContext(UserContext);
 
   const { createProxy } = Safe(
     userInfo,
@@ -70,7 +70,7 @@ export default ChatInput = ({ navigation, chatRoomID, owner }) => {
 
   const onSendPress = async () => {
     if (message) {
-      await sendMessage(chatRoomID, owner, message); //TODO: add in wallet address from User context
+      await sendMessage(chatRoomID, owner, message, publicAddress);
       setMessage("");
     }
   };

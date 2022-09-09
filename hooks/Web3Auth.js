@@ -1,5 +1,6 @@
 // This is necessary as a shim
 global.Buffer = global.Buffer || require("buffer").Buffer;
+
 import { ENV, WEB3_AUTH_CLIENT_ID } from "@env";
 
 import { useState, useEffect } from "react";

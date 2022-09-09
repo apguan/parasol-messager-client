@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 
 import SupabaseInterface from "../hooks/Supabase";
 
@@ -8,7 +8,7 @@ const defaultValues = {
   usersOnline: {},
   getRooms: null,
   setCurrentRoom: null,
-  makeRooms: null,
+  makeRoom: null,
   sendMessage: null,
   saveTransactionHash: null,
   saveMultiSigWalletAddress: null,
@@ -33,6 +33,8 @@ export default MessagingProvider = ({ children }) => {
     roomHasMultiSigWallet,
   } = SupabaseInterface();
 
+  const [isMakingRoom, setIsMakingRoom] = useState(false);
+
   return (
     <MessagingContext.Provider
       value={{
@@ -40,6 +42,8 @@ export default MessagingProvider = ({ children }) => {
         currentRoom,
         sortedMessages,
         usersOnline,
+        isMakingRoom,
+        setIsMakingRoom,
         getRooms,
         setCurrentRoom,
         makeRoom,

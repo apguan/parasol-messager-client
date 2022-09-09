@@ -1,13 +1,22 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useLayoutEffect } from "react";
 import { FlatList, View, TouchableOpacity, StyleSheet } from "react-native";
-import { MessagingContext } from "../context/Messages";
-import RoomListItem from "../components/RoomListItem";
 import { useFocusEffect } from "@react-navigation/native";
 
+import { MessagingContext } from "../context/Messages";
+import RoomListItem from "../components/RoomListItem";
+import RoomModal from "../components/RoomModal";
 
 export default RoomScreen = ({ navigation }) => {
-  const { rooms, sortedMessages, getAllMessages, setCurrentRoom, usersOnline } =
-    useContext(MessagingContext);
+  const {
+    rooms,
+    sortedMessages,
+    getAllMessages,
+    setCurrentRoom,
+    usersOnline,
+    makeRoom,
+    isMakingRoom,
+    setIsMakingRoom,
+  } = useContext(MessagingContext);
 
   useFocusEffect(() => {
     setCurrentRoom("");
@@ -27,6 +36,11 @@ export default RoomScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <RoomModal
+        makeRoom={makeRoom}
+        isMakingRoom={isMakingRoom}
+        setIsMakingRoom={setIsMakingRoom}
+      />
       <FlatList
         style={styles.scrollView}
         data={rooms}
@@ -60,6 +74,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    paddingVertical: 7,
   },
   scrollView: {
     flex: 1,
