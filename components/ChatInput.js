@@ -45,7 +45,7 @@ export default ChatInput = ({ navigation, chatRoomID, owner }) => {
         headerRight: () => {
           if (hasWallet) {
             setAddress(result[0].wallet_address);
-            setCanCreateMultisig(!hasNoWallet);
+            setCanCreateMultisig(!hasWallet);
             return (
               <MaterialCommunityIcons
                 name="vote-outline"
