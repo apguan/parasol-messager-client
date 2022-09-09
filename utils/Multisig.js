@@ -1,9 +1,6 @@
+import { RINKEBY_RPC_PROVIDER } from "@env";
 import { ethers, Wallet, Contract } from "ethers";
-
 import SafeProxyJson from "../multisig/safe-proxy.json";
-
-const RINKEBY_RPC_PROVIDER =
-  "https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161";
 
 export default Safe = (
   userInfo,

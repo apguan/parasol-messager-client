@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { FlatList, View, StyleSheet } from "react-native";
 
-import InputBox from "../components/ChatInput";
+import ChatInput from "../components/ChatInput";
 import ChatMessage from "../components/MessageItem";
 
 import { MessagingContext } from "../context/Messages";
@@ -23,7 +23,7 @@ export default MessagesScreen = ({ navigation, route }) => {
         renderItem={({ item }) => <ChatMessage owner={me} message={item} />}
         inverted
       />
-      <InputBox chatRoomID={roomId} owner={me} />
+      <ChatInput chatRoomID={roomId} owner={me} navigation={navigation} />
     </View>
   );
 };

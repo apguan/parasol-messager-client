@@ -1,7 +1,13 @@
 //shim for `Error: URLSearchParams.set is not implemented`
 import "react-native-url-polyfill/auto";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  useLayoutEffect,
+} from "react";
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from "@env";
 import { createClient } from "@supabase/supabase-js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -25,12 +31,9 @@ export default SupabaseInterface = () => {
   const [sortedMessages, setSortedMessages] = useState({});
   const [usersOnline, setUsersOnline] = useState({});
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getRooms();
     getAllMessages();
-  }, []);
-
-  useEffect(() => {
     roomsSubscription();
     messageSubscription();
 

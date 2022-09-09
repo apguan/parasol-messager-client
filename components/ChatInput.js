@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import {
   View,
   TextInput,
@@ -10,12 +10,11 @@ import {
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 import ChatModal from "./ChatModal";
-import Safe from "../hooks/Multisig";
+import Safe from "../utils/Multisig";
 import { MessagingContext } from "../context/Messages";
 import { UserContext } from "../context/User";
-import { add } from "react-native-reanimated";
 
-export default InputBox = ({ chatRoomID, owner }) => {
+export default ChatInput = ({ navigation, chatRoomID, owner }) => {
   const {
     sendMessage,
     saveTransactionHash,
@@ -37,17 +36,37 @@ export default InputBox = ({ chatRoomID, owner }) => {
 
   const [message, setMessage] = useState("");
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     (async () => {
       const result = await roomHasMultiSigWallet(chatRoomID);
-      const hasWallet = Boolean(Array.isArray(result) && result.length === 0);
+      const hasWallet = Boolean(Array.isArray(result) && result.length !== 0);
 
-      if (hasWallet) {
-        setAddress(result[0].wallet_address);
-        setCanCreateMultisig(hasWallet);
-      }
+      navigation.setOptions({
+        headerRight: () => {
+          if (hasWallet) {
+            setAddress(result[0].wallet_address);
+            setCanCreateMultisig(!hasNoWallet);
+            return (
+              <MaterialCommunityIcons
+                name="vote-outline"
+                size={24}
+                color="grey"
+              />
+            );
+          }
+
+          return (
+            <MaterialCommunityIcons
+              name="safe-square-outline"
+              onPress={createSafe}
+              size={24}
+              color="grey"
+            />
+          );
+        },
+      });
     })();
-  }, []);
+  }, [navigation]);
 
   const onSendPress = async () => {
     if (message) {
@@ -65,6 +84,17 @@ export default InputBox = ({ chatRoomID, owner }) => {
       const timer = setTimeout(() => {
         setCanCreateMultisig(false);
         setCreateSafeLoading(false);
+
+        // now set the top button
+        navigation.setOptions({
+          headerRight: () => (
+            <MaterialCommunityIcons
+              name="vote-outline"
+              size={24}
+              color="grey"
+            />
+          ),
+        });
       }, 2000);
     }
   };
@@ -78,20 +108,6 @@ export default InputBox = ({ chatRoomID, owner }) => {
       <View style={styles.container}>
         <ChatModal isVisible={createSafeLoading} address={address} />
         <View style={styles.mainContainer}>
-          {canCreateMultisig ? (
-            <MaterialCommunityIcons
-              name="safe-square-outline"
-              onPress={createSafe}
-              size={24}
-              color="grey"
-            />
-          ) : (
-            <MaterialCommunityIcons
-              name="vote-outline"
-              size={24}
-              color="grey"
-            />
-          )}
           <TextInput
             placeholder={"Type a message"}
             style={styles.textInput}
@@ -158,5 +174,4 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-
 });
