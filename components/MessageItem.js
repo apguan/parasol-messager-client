@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
   messageBox: {
     maxWidth: "90%",
-    borderRadius: 5,
+    borderRadius: 20,
     padding: 15,
   },
   name: {

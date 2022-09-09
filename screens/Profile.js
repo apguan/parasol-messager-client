@@ -18,11 +18,11 @@ export default ProfileScreen = () => {
   } = useContext(UserContext);
 
   const showLoggedIn = async () => {
-    await login();
+    const response = await login();
     Toast.show({
       type: "success",
       text1: "Success! You're logged in",
-      text2: `Account: ${response.userInfo.email}`,
+      text2: `Account: ${response.userInfo?.email}`,
     });
   };
 
@@ -54,7 +54,7 @@ export default ProfileScreen = () => {
       {!userInfo ? (
         <Button title="Connect to account" onPress={showLoggedIn} />
       ) : (
-        <Button title="Disconnect" onPress={showLogoutMessage} />
+        <Button title="Disconnect" onPress={showLogoutMessage} color={"red"} />
       )}
     </ScrollView>
   );
