@@ -32,10 +32,11 @@ Cool, now that you're set up with Expo, just run
 
 ```
 #install deps
-expo install OR yarn install 
+yarn install 
+expo install 
 
 then...
-npx pod install 
+npx pod-install 
 ```
 
 `expo install` will install all of your packages in `package.json` and then link the respective packages for Android. iOS requires one more step though, which is to link the packages to their respective pods. 
