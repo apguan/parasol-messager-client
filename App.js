@@ -1,20 +1,19 @@
-// Import the required shims
-import "@ethersproject/shims";
-
 import React, { useEffect } from "react";
+import { EnvironmentProvider } from "swiftui-react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 
-import { RootNavigator } from "./navigation/RootNavigator";
-import MessagingProvider from "./context/Messages";
-import UserProvider from "./context/User";
+import { OnboardingNavigator } from "./navigation/Navigation.js";
+import WalletConnect from "./crypto/WalletConnect.js";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-    "rt-mono-thin": require("./assets/Roboto_Mono/RobotoMono-Light.ttf"),
-    "rt-mono-med": require("./assets/Roboto_Mono/RobotoMono-Medium.ttf"),
-    "rt-mono-bold": require("./assets/Roboto_Mono/RobotoMono-Bold.ttf"),
+    "satoshi-black": require("./assets/font/Satoshi-Black.otf"),
+    "satoshi-bold": require("./assets/font/Satoshi-Bold.otf"),
+    "satoshi-regular": require("./assets/font/Satoshi-Regular.otf"),
+    "satoshi-medium": require("./assets/font/Satoshi-Medium.otf"),
+    "satoshi-light": require("./assets/font/Satoshi-Light.otf"),
   });
 
   useEffect(() => {
@@ -29,11 +28,11 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <UserProvider>
-        <MessagingProvider>
-          <RootNavigator />
-        </MessagingProvider>
-      </UserProvider>
+      <EnvironmentProvider>
+        <WalletConnect>
+          <OnboardingNavigator />
+        </WalletConnect>
+      </EnvironmentProvider>
     </NavigationContainer>
   );
 }
