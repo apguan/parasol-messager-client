@@ -43,6 +43,8 @@ PODS:
     - ReactCommon/turbomodule/core (= 0.69.6)
   - fmt (6.2.1)
   - glog (0.3.5)
+  - hermes-engine (0.69.6)
+  - libevent (2.1.12)
   - RCT-Folly (2021.06.28.00-v2):
     - boost
     - DoubleConversion
@@ -54,6 +56,12 @@ PODS:
     - DoubleConversion
     - fmt (~> 6.2.1)
     - glog
+  - RCT-Folly/Futures (2021.06.28.00-v2):
+    - boost
+    - DoubleConversion
+    - fmt (~> 6.2.1)
+    - glog
+    - libevent
   - RCTRequired (0.69.6)
   - RCTTypeSafety (0.69.6):
     - FBLazyVector (= 0.69.6)
@@ -231,6 +239,17 @@ PODS:
     - React-logger (= 0.69.6)
     - React-perflogger (= 0.69.6)
     - React-runtimeexecutor (= 0.69.6)
+  - React-hermes (0.69.6):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2021.06.28.00-v2)
+    - RCT-Folly/Futures (= 2021.06.28.00-v2)
+    - React-cxxreact (= 0.69.6)
+    - React-jsi (= 0.69.6)
+    - React-jsiexecutor (= 0.69.6)
+    - React-jsinspector (= 0.69.6)
+    - React-perflogger (= 0.69.6)
   - React-jsi (0.69.6):
     - boost (= 1.76.0)
     - DoubleConversion
@@ -395,6 +414,8 @@ DEPENDENCIES:
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - hermes-engine (from `../node_modules/react-native/sdks/hermes/hermes-engine.podspec`)
+  - libevent (~> 2.1.12)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -406,6 +427,7 @@ DEPENDENCIES:
   - React-Core/RCTWebSocket (from `../node_modules/react-native/`)
   - React-CoreModules (from `../node_modules/react-native/React/CoreModules`)
   - React-cxxreact (from `../node_modules/react-native/ReactCommon/cxxreact`)
+  - React-hermes (from `../node_modules/react-native/ReactCommon/hermes`)
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
@@ -439,6 +461,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - fmt
+    - libevent
 
 EXTERNAL SOURCES:
   boost:
@@ -481,6 +504,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/React/FBReactNativeSpec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  hermes-engine:
+    :podspec: "../node_modules/react-native/sdks/hermes/hermes-engine.podspec"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTRequired:
@@ -501,6 +526,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/React/CoreModules"
   React-cxxreact:
     :path: "../node_modules/react-native/ReactCommon/cxxreact"
+  React-hermes:
+    :path: "../node_modules/react-native/ReactCommon/hermes"
   React-jsi:
     :path: "../node_modules/react-native/ReactCommon/jsi"
   React-jsiexecutor:
@@ -582,6 +609,8 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: 957de82f66e31f2f14bbec34e37242282fdd26de
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 3d02b25ca00c2d456734d0bcff864cbc62f6ae1a
+  hermes-engine: c2c873a670bc435451449f918c2b3ab3c39255fc
+  libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   RCT-Folly: b9d9fe1fc70114b751c076104e52f3b1b5e5a95a
   RCTRequired: c8c080849a3670601d5c7056023a2176067a69d8
   RCTTypeSafety: 710aef40f5ae246bc5fff7e873855b17ed11c180
@@ -592,6 +621,7 @@ SPEC CHECKSUMS:
   React-Core: 8ec15c9727c8c01b1e4f14cad5bd21f7c1d56d49
   React-CoreModules: 79486447bf901292a83df52d4f7acbecda296723
   React-cxxreact: 9022135650dd9960a60a1361e9add424c6c37ab9
+  React-hermes: b5ce7fb460ff6d39e7bb9bbe1f523272c4b85c0b
   React-jsi: 4ccb3599c422ad071e3895c5feab9b0afc40505d
   React-jsiexecutor: c61b60de03b3474e5749b8a8fd8e6507630d62c4
   React-jsinspector: eaacb698c5af7a99131bc1933806372c20222dfd

@@ -7,6 +7,9 @@ import PhoneNumber from "../screens/Onboarding/PhoneNumber";
 import Username from "../screens/Onboarding/Username";
 import Verify from "../screens/Onboarding/Verify";
 
+// Authenticated 
+import HomeScreen from '../screens/HomeScreen/HomeScreen'
+
 import ProfileScreen from "../screens/Profile";
 import MessagesScreen from "../screens/Messages";
 
@@ -31,21 +34,13 @@ export const OnboardingNavigator = () => {
 
 export const RootNavigator = () => {
   return (
-    <AuthedStack.Navigator initialRouteName="Rooms">
-      <AuthedStack.Screen
-        name="Messages"
-        component={MessagesScreen}
-        options={({ route }) => ({
-          title: route.params.chatName,
-        })}
-      />
-      <AuthedStack.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={({ route }) => ({
-          title: "Settings",
-        })}
-      />
+    <AuthedStack.Navigator
+      initialRouteName="HomeScreen"
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <AuthedStack.Screen name="HomeScreen" component={HomeScreen} />
     </AuthedStack.Navigator>
   );
 };

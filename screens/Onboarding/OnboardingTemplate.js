@@ -3,7 +3,6 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  Keyboard,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from "react-native";

@@ -4,7 +4,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 
-import { OnboardingNavigator } from "./navigation/Navigation.js";
+import { OnboardingNavigator, RootNavigator } from "./navigation/Navigation.js";
 import WalletConnect from "./crypto/WalletConnect.js";
 
 export default function App() {
@@ -15,6 +15,8 @@ export default function App() {
     "satoshi-medium": require("./assets/font/Satoshi-Medium.otf"),
     "satoshi-light": require("./assets/font/Satoshi-Light.otf"),
   });
+
+  const isAuthenticated = true;
 
   useEffect(() => {
     (async () => {
@@ -30,7 +32,7 @@ export default function App() {
     <NavigationContainer>
       <EnvironmentProvider>
         <WalletConnect>
-          <OnboardingNavigator />
+          {isAuthenticated ? <RootNavigator /> : <OnboardingNavigator />}
         </WalletConnect>
       </EnvironmentProvider>
     </NavigationContainer>
