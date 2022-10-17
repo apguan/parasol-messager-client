@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import {
+  FlatList,
   View,
   StyleSheet,
   TouchableOpacity,
@@ -11,7 +12,10 @@ import {
 import { HStack, Text } from "swiftui-react-native";
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 
-import ChatConfig from "./ChatModal/ChatConfig";
+import ChatConfig from "../ChatConfig";
+import SuggestedContact from "../SuggestedContact";
+
+import { CONTACTS } from "../../_fixtures/contacts";
 
 const CustomBottomSheetHandle = () => {
   return <View style={styles.handleStyle} />;
@@ -19,7 +23,7 @@ const CustomBottomSheetHandle = () => {
 
 export default NewChat = () => {
   const bottomSheetRef = useRef(null);
-  const [open, setOpen] = useState(1);
+  const [open, setOpen] = useState(0);
 
   const snapPoints = useMemo(() => [1, 750], []);
 
@@ -78,8 +82,28 @@ export default NewChat = () => {
         <TouchableWithoutFeedback onPress={clearKeyboard} accessible={true}>
           <View style={styles.bottomSheetContainer}>
             <ChatConfig />
+            <FlatList
+              style={[styles.listContainer]}
+              data={CONTACTS}
+              ListHeaderComponent={() => (
+                <Text style={styles.listHeader}>Suggestions</Text>
+              )}
+              ItemSeparatorComponent={() => <View style={styles.separator} />}
+              renderItem={({ item }) => {
+                return (
+                  <SuggestedContact
+                    name={item.username}
+                    identifier={item.address}
+                    profileImage={item.profileUrl}
+                  />
+                );
+              }}
+            />
           </View>
         </TouchableWithoutFeedback>
+        <TouchableOpacity style={styles.createButtonContainer}>
+          <Text style={styles.createButtonText}>Create Group</Text>
+        </TouchableOpacity>
       </BottomSheet>
     </>
   );
@@ -91,6 +115,21 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     alignItems: "center",
+  },
+  listHeader: {
+    textAlign: "left",
+    marginBottom: 20,
+    paddingLeft: 20,
+    color: "#979797",
+  },
+  listContainer: {
+    top: 120,
+    height: 370,
+    width: "100%",
+    flexGrow: 0,
+  },
+  separator: {
+    height: 20,
   },
   contentContainer: {
     borderTopEndRadius: 30,
@@ -131,7 +170,24 @@ const styles = StyleSheet.create({
     top: -100,
   },
   bottomSheetContainer: {
-    height: "100%",
     width: 390,
+    alignContent: "center",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  createButtonContainer: {
+    position: "absolute",
+    top: 630,
+    borderRadius: 20,
+    marginHorizontal: 20,
+    backgroundColor: "#7069E9",
+    width: 350,
+  },
+  createButtonText: {
+    color: "white",
+    fontSize: 14,
+    lineHeight: 19,
+    fontFamily: "satoshi-bold",
+    paddingVertical: 18.5,
   },
 });

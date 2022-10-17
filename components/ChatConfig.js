@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF7B1",
   },
   groupInput: {
+    textAlign: "center",
     marginTop: 10,
     marginBottom: 30,
     marginHorizontal: 87.5,
