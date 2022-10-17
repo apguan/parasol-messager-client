@@ -34,6 +34,7 @@ Cool, now that you're set up with Expo, just run
 #install deps
 yarn install 
 expo install 
+brew install cocoapods
 
 then...
 npx pod-install 
