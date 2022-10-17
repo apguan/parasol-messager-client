@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FlatList, View, StyleSheet } from "react-native";
 
-import ChatInput from "../components/ChatInput";
+import ChatInput from "../components/ChatInput-Old";
 import ChatMessage from "../components/MessageItem";
 
 import { MessagingContext } from "../context/Messages";

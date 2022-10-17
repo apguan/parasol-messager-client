@@ -1,6 +1,8 @@
 import React from "react";
 import { Image, View, Text, StyleSheet } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { HStack, Spacer, VStack } from "swiftui-react-native";
+import { useNavigation } from "@react-navigation/native";
 
 export default ChatPreview = ({
   profileImage,
@@ -10,57 +12,68 @@ export default ChatPreview = ({
   isOnline,
   time,
 }) => {
+  const navigation = useNavigation();
+
+  const onChangeNavigation = () => {
+    // TODO: need to inject props here to allow for appropriate transition
+    navigation.navigate("ChatScreen");
+  };
+
   return (
-    <HStack style={styles.container}>
-      <View>
-        <Image
-          style={styles.profile}
-          source={{
-            uri: profileImage,
-          }}
-        />
-        <View style={[styles.statusIndicator, { opacity: isOnline ? 1 : 0 }]} />
-      </View>
-      <VStack style={[styles.previewTextContainer]}>
-        <HStack>
-          <Text
-            style={styles.previewTitle}
-            numberOfLines={1}
-            ellipsizeMode="tail"
-          >
-            {name}
-          </Text>
-          <Spacer />
-          <Text style={[styles.timeStyle, styles.textDropShadow]}>
-            {time ? time : "00:00 AM"}
-          </Text>
-        </HStack>
-        <HStack>
-          <Text
-            style={styles.previewMessage}
-            numberOfLines={2}
-            ellipsizeMode="tail"
-          >
-            {previewMessage}
-          </Text>
-          <Spacer />
+    <TouchableOpacity onPress={onChangeNavigation}>
+      <HStack style={styles.container}>
+        <View>
+          <Image
+            style={styles.profile}
+            source={{
+              uri: profileImage,
+            }}
+          />
           <View
-            style={[
-              styles.unreadNotificationContainer,
-              styles.dropShadow,
-              { opacity: unreadCount ? 1 : 0 },
-            ]}
-          >
+            style={[styles.statusIndicator, { opacity: isOnline ? 1 : 0 }]}
+          />
+        </View>
+        <VStack style={[styles.previewTextContainer]}>
+          <HStack>
             <Text
-              style={[styles.notificationText, styles.textDropShadow]}
-              fontSize={6}
+              style={styles.previewTitle}
+              numberOfLines={1}
+              ellipsizeMode="tail"
             >
-              {unreadCount}
+              {name}
             </Text>
-          </View>
-        </HStack>
-      </VStack>
-    </HStack>
+            <Spacer />
+            <Text style={[styles.timeStyle, styles.textDropShadow]}>
+              {time ? time : "00:00 AM"}
+            </Text>
+          </HStack>
+          <HStack>
+            <Text
+              style={styles.previewMessage}
+              numberOfLines={2}
+              ellipsizeMode="tail"
+            >
+              {previewMessage}
+            </Text>
+            <Spacer />
+            <View
+              style={[
+                styles.unreadNotificationContainer,
+                styles.dropShadow,
+                { opacity: unreadCount ? 1 : 0 },
+              ]}
+            >
+              <Text
+                style={[styles.notificationText, styles.textDropShadow]}
+                fontSize={6}
+              >
+                {unreadCount}
+              </Text>
+            </View>
+          </HStack>
+        </VStack>
+      </HStack>
+    </TouchableOpacity>
   );
 };
 
