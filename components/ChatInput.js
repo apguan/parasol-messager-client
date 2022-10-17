@@ -4,8 +4,6 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import {
-  View,
-  Image,
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
@@ -14,15 +12,16 @@ import {
 } from "react-native";
 
 const MESSAGE_ICON = require("../assets/smilie-message-icon.png");
+const DURATION = { duration: 250 };
 
 export default ChatInput = () => {
   const [message, setMessage] = useState("");
   const inputStyle = useAnimatedStyle(() => ({
-    width: withTiming(message.length ? 320 : 349),
+    width: withTiming(message.length ? 320 : 349, DURATION),
   }));
 
   const buttonStyle = useAnimatedStyle(() => ({
-    opacity: withTiming(message.length ? 1 : 0),
+    opacity: withTiming(message.length ? 1 : 0, DURATION),
   }));
 
   const onSendPress = async () => {};
