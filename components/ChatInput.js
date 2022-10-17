@@ -74,7 +74,8 @@ const styles = StyleSheet.create({
   },
   textInputContainer: {
     width: "100%",
-    maxHeight: 60,
+    height: 44,
+    maxHeight: 88,
     marginHorizontal: 20,
     flexDirection: "row",
   },

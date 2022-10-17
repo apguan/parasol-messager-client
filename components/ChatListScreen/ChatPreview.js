@@ -49,7 +49,10 @@ export default ChatPreview = ({
           </HStack>
           <HStack>
             <Text
-              style={styles.previewMessage}
+              style={[
+                styles.previewMessage,
+                unreadCount && { fontFamily: "satoshi-bold", color: "black" },
+              ]}
               numberOfLines={2}
               ellipsizeMode="tail"
             >
