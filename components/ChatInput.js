@@ -1,6 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
+import Animated, {
+  useAnimatedStyle,
+  withTiming,
+} from "react-native-reanimated";
 import {
   View,
+  Image,
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
@@ -8,10 +13,17 @@ import {
   StyleSheet,
 } from "react-native";
 
-export default ChatInput = () => {
-  const textInputRef = useRef();
+const MESSAGE_ICON = require("../assets/smilie-message-icon.png");
 
+export default ChatInput = () => {
   const [message, setMessage] = useState("");
+  const inputStyle = useAnimatedStyle(() => ({
+    width: withTiming(message.length ? 320 : 349),
+  }));
+
+  const buttonStyle = useAnimatedStyle(() => ({
+    opacity: withTiming(message.length ? 1 : 0),
+  }));
 
   const onSendPress = async () => {};
 
@@ -27,15 +39,32 @@ export default ChatInput = () => {
       keyboardVerticalOffset={60}
       style={styles.keyboardAvoidance}
     >
-      <TextInput
-        ref={textInputRef}
-        multiline
-        placeholder={"Type message..."}
-        style={styles.textInput}
-        value={message}
-        onChangeText={onInputChange}
-        onContentSizeChange={_changeSize}
-      />
+      <Animated.View style={[styles.textInputContainer, inputStyle]}>
+        <TextInput
+          multiline
+          placeholder={"Type message..."}
+          style={[styles.textInput]}
+          value={message}
+          onChangeText={onInputChange}
+          onContentSizeChange={_changeSize}
+        />
+        <TouchableOpacity style={styles.sendButton}>
+          <Animated.Image
+            style={[buttonStyle]}
+            height={23}
+            width={23}
+            source={MESSAGE_ICON}
+          />
+        </TouchableOpacity>
+        {/* <TouchableOpacity>
+          <Imaged
+            height={24}
+            width={24}
+            style={styles.icon}
+            source={MESSAGE_ICON}
+          />
+        </TouchableOpacity> */}
+      </Animated.View>
     </KeyboardAvoidingView>
   );
 };
@@ -43,25 +72,37 @@ export default ChatInput = () => {
 const styles = StyleSheet.create({
   keyboardAvoidance: {
     width: "100%",
-    alignItems: "center",
+  },
+  textInputContainer: {
+    width: "100%",
+    maxHeight: 60,
+    marginHorizontal: 20,
+    flexDirection: "row",
   },
   textInput: {
-    marginHorizontal: 20,
-    maxHeight: 60,
+    width: "100%",
+    backgroundColor: "rgba(217, 217, 217, 0.2)",
+    fontSize: 16,
+    lineHeight: 18,
+    fontFamily: "satoshi-bold",
     paddingTop: 14,
     paddingBottom: 14,
     paddingLeft: 20,
     paddingRight: 54,
     borderRadius: 20,
-    width: 349,
-    backgroundColor: "rgba(217, 217, 217, 0.2)",
-    fontSize: 12,
-    lineHeight: 16.5,
-    fontFamily: "satoshi-bold",
+  },
+  sendButton: {
+    height: 44,
+    width: 40,
     justifyContent: "center",
+    alignItems: "center",
   },
   icon: {
-    marginHorizontal: 5,
+    position: "absolute",
+    top: -36,
+    left: 305,
+    height: 24,
+    width: 26,
   },
   buttonContainer: {
     backgroundColor: "rgb(69, 169, 222)",

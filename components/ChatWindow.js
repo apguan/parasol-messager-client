@@ -9,6 +9,5 @@ const styles = StyleSheet.create({
   container: {
     width: 351,
     height: 679,
-    backgroundColor: "pink",
   },
 });

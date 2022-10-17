@@ -9,7 +9,7 @@ import ChatInput from "../../components/ChatInput";
 export default ChatScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <VStack>
+      <VStack alignment="leading">
         <Header />
         <ChatWindow />
         <ChatInput />
