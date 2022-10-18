@@ -17,7 +17,7 @@ import {
 } from "react-native";
 import { Feather, AntDesign, Entypo } from "@expo/vector-icons";
 
-const DURATION = { duration: 400, easing: Easing.bezier(0.25, 0.1, 0.25, 1) };
+const DURATION = { duration: 450, easing: Easing.bezier(0.25, 0.1, 0.25, 1) };
 
 const AnimatedTouchableOpacity =
   Animated.createAnimatedComponent(TouchableOpacity);
@@ -60,6 +60,7 @@ export default ChatInput = () => {
   const _changeSize = ({ nativeEvent }) => {
     setTextInputHeight(nativeEvent.contentSize.height);
   };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS == "ios" ? "padding" : "height"}
