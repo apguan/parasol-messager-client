@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import Animated, {
-  FadeIn,
-  FadeOut,
   ZoomInRotate,
   ZoomOutRotate,
   useAnimatedStyle,
+  useSharedValue,
   Easing,
   withTiming,
+  interpolate,
+  Extrapolate,
 } from "react-native-reanimated";
 import {
   TextInput,
@@ -17,8 +18,6 @@ import {
 } from "react-native";
 import { Feather, AntDesign, Entypo } from "@expo/vector-icons";
 
-const DURATION = { duration: 450, easing: Easing.bezier(0.25, 0.1, 0.25, 1) };
-
 const AnimatedTouchableOpacity =
   Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -28,8 +27,8 @@ const IconTray = ({ children, style, onPress = () => {} }) => {
   return (
     <AnimatedTouchableOpacity
       style={[style ? style : styles.trayIcons]}
-      entering={ZoomInRotate.duration(275).damping(5)}
-      exiting={ZoomOutRotate.duration(275).damping(8)}
+      entering={ZoomInRotate.duration(300).damping(20)}
+      exiting={ZoomOutRotate.duration(300).damping(8)}
       onPress={onPress}
     >
       {children}
@@ -38,18 +37,35 @@ const IconTray = ({ children, style, onPress = () => {} }) => {
 };
 
 export default ChatInput = () => {
-  const [textInputHeight, setTextInputHeight] = useState(0);
+  const textInputHeight = useSharedValue(0);
+  const animatedStyle = useSharedValue({ grow: 300, shrink: 259 + 36 });
   const [message, setMessage] = useState("");
   const showIconTray = Boolean(!message.length);
 
-  const inputStyle = useAnimatedStyle(() => ({
-    width: withTiming(message.length ? 291 : 259, DURATION),
-  }));
+  const inputStyle = useAnimatedStyle(() => {
+    const DURATION = {
+      duration: 700,
+      easing: Easing.inOut(Easing.quad),
+    };
 
-  const inputGrowStyle = useAnimatedStyle(() => ({
-    marginBottom: withTiming(textInputHeight > 20 ? 33 : 6),
-    height: withTiming(textInputHeight > 20 ? 72 : 36),
-  }));
+    const growContainer = interpolate(
+      textInputHeight.value,
+      [18, 120],
+      [36, 160],
+      { extrapolateRight: Extrapolate.CLAMP }
+    );
+
+    return {
+      left: withTiming(message.length ? 31 : 74),
+      width: message.length
+        ? withTiming(animatedStyle.value.grow, DURATION)
+        : withTiming(animatedStyle.value.shrink, {
+            duration: 400,
+            easing: Easing.inOut(Easing.quad),
+          }),
+      height: growContainer,
+    };
+  });
 
   const onSendPress = async () => {};
 
@@ -58,7 +74,7 @@ export default ChatInput = () => {
   };
 
   const _changeSize = ({ nativeEvent }) => {
-    setTextInputHeight(nativeEvent.contentSize.height);
+    textInputHeight.value = nativeEvent.contentSize.height;
   };
 
   return (
@@ -69,17 +85,14 @@ export default ChatInput = () => {
     >
       <Animated.View style={[styles.textInputContainer]}>
         {showIconTray ? (
-          <>
-            <IconTray>
-              <AntDesign name="pluscircle" size={24} color="#999999" />
-            </IconTray>
+          <Animated.View style={[styles.tray]}>
             <IconTray>
               <Feather name="camera" size={24} color="#999999" />
             </IconTray>
             <IconTray>
               <AntDesign name="picture" size={24} color="#999999" />
             </IconTray>
-          </>
+          </Animated.View>
         ) : (
           <IconTray>
             <Entypo name="chevron-right" size={24} color="#999999" />
@@ -88,7 +101,7 @@ export default ChatInput = () => {
         <AnimatedTextInput
           multiline
           placeholder={"Type message..."}
-          style={[styles.textInput, inputStyle, inputGrowStyle]}
+          style={[styles.textInput, inputStyle]}
           value={message}
           onChangeText={onInputChange}
           onContentSizeChange={_changeSize}
@@ -107,37 +120,44 @@ const styles = StyleSheet.create({
   keyboardAvoidance: {
     width: "100%",
   },
+  tray: {
+    flexDirection: "row",
+    marginLeft: 5,
+  },
   textInputContainer: {
     width: 387,
     height: 48,
-    maxHeight: 80,
+    maxHeight: 260,
     marginHorizontal: 20,
     flexDirection: "row",
     alignItems: "center",
   },
   textInput: {
+    position: "absolute",
+    bottom: 0,
     backgroundColor: "rgba(255, 255, 255, 0.5)",
     borderColor: "rgba(153, 153, 153, 0.3)",
-    fontFamily: "satoshi-regular",
     borderWidth: 1,
     height: 36,
-    maxHeight: 60,
+    maxHeight: 240,
     marginVertical: 6,
-    width: 259,
+    width: 249,
     fontSize: 14,
-    lineHeight: 16,
+    lineHeight: 18,
     marginLeft: 6,
     paddingTop: 8,
     paddingBottom: 8,
-    paddingHorizontal: 12,
-    borderRadius: 20,
+    paddingLeft: 12,
+    paddingRight: 18,
+    borderRadius: 18,
   },
   sendButton: {
+    position: "absolute",
     backgroundColor: "#5048E5",
     borderRadius: 70,
     height: 32,
     width: 32,
-    left: 10,
+    left: 345,
     justifyContent: "center",
     alignItems: "center",
   },
