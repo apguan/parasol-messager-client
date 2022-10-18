@@ -16,6 +16,7 @@ import {
   Platform,
   StyleSheet,
 } from "react-native";
+
 import { Feather, AntDesign, Entypo } from "@expo/vector-icons";
 
 const AnimatedTouchableOpacity =
@@ -38,13 +39,13 @@ const IconTray = ({ children, style, onPress = () => {} }) => {
 
 export default ChatInput = () => {
   const textInputHeight = useSharedValue(0);
-  const animatedStyle = useSharedValue({ grow: 300, shrink: 259 + 36 });
+  const animatedStyle = useSharedValue({ grow: 300, shrink: 295 });
   const [message, setMessage] = useState("");
   const showIconTray = Boolean(!message.length);
 
   const inputStyle = useAnimatedStyle(() => {
     const DURATION = {
-      duration: 700,
+      duration: 300,
       easing: Easing.inOut(Easing.quad),
     };
 
@@ -67,6 +68,12 @@ export default ChatInput = () => {
     };
   });
 
+  const stickerStyle = useAnimatedStyle(() => {
+    return {
+      left: withTiming(message.length ? 304 : 340),
+    };
+  });
+
   const onSendPress = async () => {};
 
   const onInputChange = (input) => {
@@ -80,10 +87,10 @@ export default ChatInput = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS == "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={60}
+      keyboardVerticalOffset={50}
       style={styles.keyboardAvoidance}
     >
-      <Animated.View style={[styles.textInputContainer]}>
+      <Animated.View style={[styles.textBarContainer]}>
         {showIconTray ? (
           <Animated.View style={[styles.tray]}>
             <IconTray>
@@ -98,14 +105,21 @@ export default ChatInput = () => {
             <Entypo name="chevron-right" size={24} color="#999999" />
           </IconTray>
         )}
-        <AnimatedTextInput
-          multiline
-          placeholder={"Type message..."}
-          style={[styles.textInput, inputStyle]}
-          value={message}
-          onChangeText={onInputChange}
-          onContentSizeChange={_changeSize}
-        />
+        <Animated.View style={[styles.textInputContainer]}>
+          <AnimatedTextInput
+            multiline
+            placeholder={"Type message..."}
+            style={[styles.textInput, inputStyle]}
+            value={message}
+            onChangeText={onInputChange}
+            onContentSizeChange={_changeSize}
+          />
+          <AnimatedTouchableOpacity
+            style={[styles.stickerButton, stickerStyle]}
+          >
+            <AntDesign name="smileo" size={24} color="#896BFF" />
+          </AnimatedTouchableOpacity>
+        </Animated.View>
         {!showIconTray && (
           <IconTray style={[styles.sendButton]} onPress={onSendPress}>
             <AntDesign name="arrowup" size={24} color="white" />
@@ -124,7 +138,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginLeft: 5,
   },
-  textInputContainer: {
+  textBarContainer: {
     width: 387,
     height: 48,
     maxHeight: 260,
@@ -132,23 +146,27 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+  textInputContainer: {
+    position: "absolute",
+    flex: 1,
+  },
   textInput: {
     position: "absolute",
-    bottom: 0,
+    // half the width of the input + half the bottom padding + half the bottom margin
+    bottom: -18 + -4 + -3,
     backgroundColor: "rgba(255, 255, 255, 0.5)",
     borderColor: "rgba(153, 153, 153, 0.3)",
     borderWidth: 1,
     height: 36,
     maxHeight: 240,
     marginVertical: 6,
-    width: 249,
     fontSize: 14,
     lineHeight: 18,
     marginLeft: 6,
     paddingTop: 8,
     paddingBottom: 8,
     paddingLeft: 12,
-    paddingRight: 18,
+    paddingRight: 40,
     borderRadius: 18,
   },
   sendButton: {
@@ -172,5 +190,10 @@ const styles = StyleSheet.create({
     margin: 6,
     height: 24,
     width: 24,
+  },
+  stickerButton: {
+    position: "absolute",
+    bottom: -14,
+    left: 340,
   },
 });

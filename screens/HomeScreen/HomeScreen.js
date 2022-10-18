@@ -86,9 +86,10 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   flatListSeparator: {
+    flex: 1,
     height: 1,
     width: 290,
-    backgroundColor: "#D9D9D9",
     left: 80,
+    backgroundColor: "#D9D9D9",
   },
 });
