@@ -1,197 +1,235 @@
-import React, { useContext, useLayoutEffect, useState } from "react";
+import React, { useState } from "react";
+import Animated, {
+  ZoomInRotate,
+  ZoomOutRotate,
+  useAnimatedStyle,
+  useSharedValue,
+  Easing,
+  withTiming,
+  interpolate,
+  Extrapolate,
+  withSpring,
+} from "react-native-reanimated";
 import {
-  View,
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
-  Image,
 } from "react-native";
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
-import ChatModal from "./ChatModal";
-import TransactionModal from "./TransactionModal";
-import Safe from "../utils/Multisig";
-import { MessagingContext } from "../context/Messages";
-import { UserContext } from "../context/User";
+import { Feather, AntDesign, Entypo } from "@expo/vector-icons";
 
-export default ChatInput = ({
-  navigation,
-  chatRoomID,
-  owner,
-  userAddresses,
-}) => {
-  const {
-    sendMessage,
-    saveTransactionHash,
-    saveMultiSigWalletAddress,
-    roomHasMultiSigWallet,
-  } = useContext(MessagingContext);
-  const { userInfo, publicAddress } = useContext(UserContext);
+const AnimatedTouchableOpacity =
+  Animated.createAnimatedComponent(TouchableOpacity);
+const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
-  const { createProxy } = Safe(
-    userInfo,
-    chatRoomID,
-    saveTransactionHash,
-    saveMultiSigWalletAddress
+const DURATION = {
+  duration: 300,
+  easing: Easing.inOut(Easing.quad),
+};
+
+const SPRING_CONFIG = {
+  stiffness: 150,
+  mass: 0.75,
+  damping: 15,
+};
+
+const AnimatedButtons = ({ children, style, onPress = () => {} }) => {
+  return (
+    <AnimatedTouchableOpacity
+      style={[style ? style : styles.trayIcons]}
+      entering={ZoomInRotate.duration(300).damping(20)}
+      exiting={ZoomOutRotate.duration(300)}
+      onPress={onPress}
+    >
+      {children}
+    </AnimatedTouchableOpacity>
   );
+};
 
-  const [canCreateMultisig, setCanCreateMultisig] = useState(false);
-  const [createSafeLoading, setCreateSafeLoading] = useState(false);
-  const [isTransacting, setIsTransacting] = useState(false);
-  const [address, setAddress] = useState("");
+export default ChatInput = () => {
+  const textInputHeight = useSharedValue(0);
+  const animatedInputStyle = useSharedValue({
+    grow: 240,
+    shrink: 245,
+  });
+  const animatedInputContainerStyle = useSharedValue({
+    grow: 300,
+    shrink: 295,
+  });
 
   const [message, setMessage] = useState("");
+  const showIconTray = Boolean(!message.length);
 
-  useLayoutEffect(() => {
-    (async () => {
-      const result = await roomHasMultiSigWallet(chatRoomID);
-      const hasWallet = Boolean(Array.isArray(result) && result.length !== 0);
+  const inputBarStyle = useAnimatedStyle(() => {
+    const growContainer = interpolate(
+      textInputHeight.value,
+      [18, 126],
+      [48, 156],
+      { extrapolateRight: Extrapolate.CLAMP }
+    );
 
-      navigation.setOptions({
-        headerRight: () => {
-          if (hasWallet) {
-            setAddress(result[0].wallet_address);
-            setCanCreateMultisig(!hasWallet);
-            return (
-              <MaterialCommunityIcons
-                name="vote-outline"
-                size={24}
-                color="grey"
-              />
-            );
-          }
+    return {
+      height: withSpring(growContainer, SPRING_CONFIG),
+    };
+  });
 
-          return (
-            <MaterialCommunityIcons
-              name="safe-square-outline"
-              onPress={createSafe}
-              size={24}
-              color="grey"
-            />
-          );
-        },
-      });
-    })();
-  }, [navigation]);
+  const inputContainerStyle = useAnimatedStyle(() => {
+    return {
+      left: withTiming(message.length ? 40 : 80),
+      width: message.length
+        ? withTiming(animatedInputContainerStyle.value.grow, DURATION)
+        : withTiming(animatedInputContainerStyle.value.shrink, {
+            duration: 400,
+            easing: Easing.inOut(Easing.quad),
+          }),
+    };
+  });
 
-  const onSendPress = async () => {
-    if (message) {
-      await sendMessage(chatRoomID, owner, message, publicAddress);
-      setMessage("");
-    }
+  const inputStyle = useAnimatedStyle(() => {
+    const growContainer = interpolate(
+      textInputHeight.value,
+      [18, 126],
+      [36, 144],
+      { extrapolateRight: Extrapolate.CLAMP }
+    );
+
+    return {
+      width: message.length
+        ? withTiming(animatedInputStyle.value.grow, DURATION)
+        : withTiming(animatedInputStyle.value.shrink, {
+            duration: 400,
+            easing: Easing.inOut(Easing.quad),
+          }),
+      height: withSpring(growContainer, SPRING_CONFIG),
+    };
+  });
+
+  const stickerStyle = useAnimatedStyle(() => {
+    return {
+      left: withTiming(message.length ? 309 : 344),
+    };
+  });
+
+  const onSendPress = async () => {};
+
+  const onInputChange = (input) => {
+    setMessage(input);
   };
 
-  const createSafe = async () => {
-    setCreateSafeLoading(true);
-    const address = await createProxy();
-
-    if (address) {
-      setAddress(address);
-      const timer = setTimeout(() => {
-        setCanCreateMultisig(false);
-        setCreateSafeLoading(false);
-
-        // now set the top button
-        navigation.setOptions({
-          headerRight: () => (
-            <MaterialCommunityIcons
-              name="vote-outline"
-              size={24}
-              color="grey"
-            />
-          ),
-        });
-      }, 2000);
-    }
+  const _changeSize = ({ nativeEvent }) => {
+    textInputHeight.value = nativeEvent.contentSize.height;
   };
 
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS == "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={100}
-      style={{ width: "100%" }}
+      keyboardVerticalOffset={50}
+      style={styles.keyboardAvoidance}
     >
-      <View style={styles.container}>
-        <ChatModal isVisible={createSafeLoading} address={address} />
-        <TransactionModal
-          isTransacting={isTransacting}
-          setIsTransacting={setIsTransacting}
-          userAddresses={userAddresses}
-        />
-        <View style={styles.mainContainer}>
-          <TextInput
-            placeholder={"Type a message"}
-            style={styles.textInput}
-            multiline
+      <Animated.View style={[styles.textBarContainer, inputBarStyle]}>
+        <Animated.View style={[styles.tray]}>
+          {showIconTray ? (
+            <>
+              <AnimatedButtons>
+                <Feather name="camera" size={24} color="#999999" />
+              </AnimatedButtons>
+              <AnimatedButtons>
+                <AntDesign name="picture" size={24} color="#999999" />
+              </AnimatedButtons>
+            </>
+          ) : (
+            <AnimatedButtons>
+              <Entypo name="chevron-right" size={24} color="#999999" />
+            </AnimatedButtons>
+          )}
+        </Animated.View>
+        <Animated.View style={[styles.textInputContainer, inputContainerStyle]}>
+          <AnimatedTextInput
+            multiline={true}
+            placeholder={"Type message..."}
+            style={[styles.textInput, inputStyle]}
             value={message}
-            onChangeText={setMessage}
+            onChangeText={onInputChange}
+            onContentSizeChange={_changeSize}
           />
-          <TouchableOpacity onPress={() => setIsTransacting(true)}>
-            <Image
-              source={require("../assets/cryptocurrency.png")}
-              height={24}
-              width={24}
-            />
-          </TouchableOpacity>
-          {/* <Entypo
-            name="attachment"
-            size={24}
-            color="grey"
-            style={styles.icon}
-          />
-          {!message && (
-            <Fontisto
-              name="camera"
-              size={24}
-              color="grey"
-              style={styles.icon}
-            />
-          )} */}
-        </View>
-        <TouchableOpacity onPress={onSendPress} disabled={!message}>
-          <View
-            style={[styles.buttonContainer, { opacity: !message ? 0.25 : 1 }]}
-          >
-            <MaterialIcons name="send" size={28} color="white" />
-          </View>
-        </TouchableOpacity>
-      </View>
+        </Animated.View>
+        <AnimatedTouchableOpacity style={[styles.stickerButton, stickerStyle]}>
+          <AntDesign name="smileo" size={24} color="#896BFF" />
+        </AnimatedTouchableOpacity>
+        {!showIconTray && (
+          <AnimatedButtons style={[styles.sendButton]} onPress={onSendPress}>
+            <AntDesign name="arrowup" size={24} color="white" />
+          </AnimatedButtons>
+        )}
+      </Animated.View>
     </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    margin: 15,
+  keyboardAvoidance: {
+    width: "100%",
+  },
+  tray: {
     flexDirection: "row",
-    alignItems: "flex-end",
-  },
-  mainContainer: {
-    flex: 1,
-    flexDirection: "row",
-    backgroundColor: "white",
-    padding: 13,
-    borderRadius: 25,
-    marginRight: 10,
-    alignItems: "flex-end",
-    justifyContent: "center",
-  },
-  textInput: {
-    flex: 1,
-    fontSize: 16,
-    marginHorizontal: 10,
-  },
-  icon: {
+    position: "absolute",
+    bottom: 0,
+    marginBottom: 8,
     marginHorizontal: 5,
   },
-  buttonContainer: {
-    backgroundColor: "rgb(69, 169, 222)",
-    borderRadius: 25,
-    width: 50,
-    height: 50,
+  textBarContainer: {
+    zIndex: 5,
+    backgroundColor: "white",
+    elevation: 5,
+    width: 387,
+    height: 48,
+    maxHeight: 260,
+    marginHorizontal: 20,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  textInputContainer: {
+    left: 34,
+    marginVertical: 6,
+    minHeight: 36,
+    bottom: 0,
+    position: "absolute",
+    backgroundColor: "white",
+    borderColor: "rgba(153, 153, 153, 0.3)",
+    borderRadius: 22,
+    borderWidth: 1,
+  },
+  textInput: {
+    left: 12,
+    minHeight: 36,
+    bottom: 0,
+    maxHeight: 240,
+    fontSize: 16,
+    paddingTop: 10,
+    lineHeight: 18,
+  },
+  sendButton: {
+    position: "absolute",
+    backgroundColor: "#5048E5",
+    borderRadius: 70,
+    height: 32,
+    width: 32,
+    left: 349,
+    bottom: 0,
+    marginBottom: 10,
     justifyContent: "center",
     alignItems: "center",
+  },
+  trayIcons: {
+    margin: 6,
+    height: 24,
+    width: 24,
+  },
+  stickerButton: {
+    position: "absolute",
+    bottom: 0,
+    marginBottom: 13,
   },
 });
