@@ -8,6 +8,7 @@ import Animated, {
   withTiming,
   interpolate,
   Extrapolate,
+  withSpring,
 } from "react-native-reanimated";
 import {
   TextInput,
@@ -21,15 +22,25 @@ import { Feather, AntDesign, Entypo } from "@expo/vector-icons";
 
 const AnimatedTouchableOpacity =
   Animated.createAnimatedComponent(TouchableOpacity);
-
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
-const IconTray = ({ children, style, onPress = () => {} }) => {
+const DURATION = {
+  duration: 300,
+  easing: Easing.inOut(Easing.quad),
+};
+
+const SPRING_CONFIG = {
+  stiffness: 150,
+  mass: 0.75,
+  damping: 15,
+};
+
+const AnimatedButtons = ({ children, style, onPress = () => {} }) => {
   return (
     <AnimatedTouchableOpacity
       style={[style ? style : styles.trayIcons]}
       entering={ZoomInRotate.duration(300).damping(20)}
-      exiting={ZoomOutRotate.duration(300).damping(8)}
+      exiting={ZoomOutRotate.duration(300)}
       onPress={onPress}
     >
       {children}
@@ -39,38 +50,65 @@ const IconTray = ({ children, style, onPress = () => {} }) => {
 
 export default ChatInput = () => {
   const textInputHeight = useSharedValue(0);
-  const animatedStyle = useSharedValue({ grow: 300, shrink: 295 });
+  const animatedInputStyle = useSharedValue({
+    grow: 240,
+    shrink: 245,
+  });
+  const animatedInputContainerStyle = useSharedValue({
+    grow: 300,
+    shrink: 295,
+  });
+
   const [message, setMessage] = useState("");
   const showIconTray = Boolean(!message.length);
 
-  const inputStyle = useAnimatedStyle(() => {
-    const DURATION = {
-      duration: 300,
-      easing: Easing.inOut(Easing.quad),
-    };
-
+  const inputBarStyle = useAnimatedStyle(() => {
     const growContainer = interpolate(
       textInputHeight.value,
-      [18, 120],
-      [36, 160],
+      [18, 126],
+      [48, 156],
       { extrapolateRight: Extrapolate.CLAMP }
     );
 
     return {
-      left: withTiming(message.length ? 31 : 74),
+      height: withSpring(growContainer, SPRING_CONFIG),
+    };
+  });
+
+  const inputContainerStyle = useAnimatedStyle(() => {
+    return {
+      left: withTiming(message.length ? 40 : 80),
       width: message.length
-        ? withTiming(animatedStyle.value.grow, DURATION)
-        : withTiming(animatedStyle.value.shrink, {
+        ? withTiming(animatedInputContainerStyle.value.grow, DURATION)
+        : withTiming(animatedInputContainerStyle.value.shrink, {
             duration: 400,
             easing: Easing.inOut(Easing.quad),
           }),
-      height: growContainer,
+    };
+  });
+
+  const inputStyle = useAnimatedStyle(() => {
+    const growContainer = interpolate(
+      textInputHeight.value,
+      [18, 126],
+      [36, 144],
+      { extrapolateRight: Extrapolate.CLAMP }
+    );
+
+    return {
+      width: message.length
+        ? withTiming(animatedInputStyle.value.grow, DURATION)
+        : withTiming(animatedInputStyle.value.shrink, {
+            duration: 400,
+            easing: Easing.inOut(Easing.quad),
+          }),
+      height: withSpring(growContainer, SPRING_CONFIG),
     };
   });
 
   const stickerStyle = useAnimatedStyle(() => {
     return {
-      left: withTiming(message.length ? 304 : 340),
+      left: withTiming(message.length ? 309 : 344),
     };
   });
 
@@ -90,40 +128,40 @@ export default ChatInput = () => {
       keyboardVerticalOffset={50}
       style={styles.keyboardAvoidance}
     >
-      <Animated.View style={[styles.textBarContainer]}>
-        {showIconTray ? (
-          <Animated.View style={[styles.tray]}>
-            <IconTray>
-              <Feather name="camera" size={24} color="#999999" />
-            </IconTray>
-            <IconTray>
-              <AntDesign name="picture" size={24} color="#999999" />
-            </IconTray>
-          </Animated.View>
-        ) : (
-          <IconTray>
-            <Entypo name="chevron-right" size={24} color="#999999" />
-          </IconTray>
-        )}
-        <Animated.View style={[styles.textInputContainer]}>
+      <Animated.View style={[styles.textBarContainer, inputBarStyle]}>
+        <Animated.View style={[styles.tray]}>
+          {showIconTray ? (
+            <>
+              <AnimatedButtons>
+                <Feather name="camera" size={24} color="#999999" />
+              </AnimatedButtons>
+              <AnimatedButtons>
+                <AntDesign name="picture" size={24} color="#999999" />
+              </AnimatedButtons>
+            </>
+          ) : (
+            <AnimatedButtons>
+              <Entypo name="chevron-right" size={24} color="#999999" />
+            </AnimatedButtons>
+          )}
+        </Animated.View>
+        <Animated.View style={[styles.textInputContainer, inputContainerStyle]}>
           <AnimatedTextInput
-            multiline
+            multiline={true}
             placeholder={"Type message..."}
             style={[styles.textInput, inputStyle]}
             value={message}
             onChangeText={onInputChange}
             onContentSizeChange={_changeSize}
           />
-          <AnimatedTouchableOpacity
-            style={[styles.stickerButton, stickerStyle]}
-          >
-            <AntDesign name="smileo" size={24} color="#896BFF" />
-          </AnimatedTouchableOpacity>
         </Animated.View>
+        <AnimatedTouchableOpacity style={[styles.stickerButton, stickerStyle]}>
+          <AntDesign name="smileo" size={24} color="#896BFF" />
+        </AnimatedTouchableOpacity>
         {!showIconTray && (
-          <IconTray style={[styles.sendButton]} onPress={onSendPress}>
+          <AnimatedButtons style={[styles.sendButton]} onPress={onSendPress}>
             <AntDesign name="arrowup" size={24} color="white" />
-          </IconTray>
+          </AnimatedButtons>
         )}
       </Animated.View>
     </KeyboardAvoidingView>
@@ -136,9 +174,15 @@ const styles = StyleSheet.create({
   },
   tray: {
     flexDirection: "row",
-    marginLeft: 5,
+    position: "absolute",
+    bottom: 0,
+    marginBottom: 8,
+    marginHorizontal: 5,
   },
   textBarContainer: {
+    zIndex: 5,
+    backgroundColor: "white",
+    elevation: 5,
     width: 387,
     height: 48,
     maxHeight: 260,
@@ -147,27 +191,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   textInputContainer: {
+    left: 34,
+    marginVertical: 6,
+    minHeight: 36,
+    bottom: 0,
     position: "absolute",
-    flex: 1,
+    backgroundColor: "white",
+    borderColor: "rgba(153, 153, 153, 0.3)",
+    borderRadius: 22,
+    borderWidth: 1,
   },
   textInput: {
-    position: "absolute",
-    // half the width of the input + half the bottom padding + half the bottom margin
-    bottom: -18 + -4 + -3,
-    backgroundColor: "rgba(255, 255, 255, 0.5)",
-    borderColor: "rgba(153, 153, 153, 0.3)",
-    borderWidth: 1,
-    height: 36,
+    left: 12,
+    minHeight: 36,
+    bottom: 0,
     maxHeight: 240,
-    marginVertical: 6,
-    fontSize: 14,
+    fontSize: 16,
+    paddingTop: 10,
     lineHeight: 18,
-    marginLeft: 6,
-    paddingTop: 8,
-    paddingBottom: 8,
-    paddingLeft: 12,
-    paddingRight: 40,
-    borderRadius: 18,
   },
   sendButton: {
     position: "absolute",
@@ -175,16 +216,11 @@ const styles = StyleSheet.create({
     borderRadius: 70,
     height: 32,
     width: 32,
-    left: 345,
+    left: 349,
+    bottom: 0,
+    marginBottom: 10,
     justifyContent: "center",
     alignItems: "center",
-  },
-  icon: {
-    position: "absolute",
-    top: -36,
-    left: 305,
-    height: 24,
-    width: 26,
   },
   trayIcons: {
     margin: 6,
@@ -193,7 +229,7 @@ const styles = StyleSheet.create({
   },
   stickerButton: {
     position: "absolute",
-    bottom: -14,
-    left: 340,
+    bottom: 0,
+    marginBottom: 13,
   },
 });
