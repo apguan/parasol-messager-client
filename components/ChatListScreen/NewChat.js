@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
-import { AntDesign } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 import {
   FlatList,
   View,
@@ -56,7 +56,7 @@ export default NewChat = () => {
         onPress={() => setOpen(1)}
       >
         <HStack>
-          <AntDesign name="plus" size={20} color="white" />
+          <Entypo name="plus" size={20} color="white" />
           <Text
             style={styles.buttonText}
             fontSize={14}
