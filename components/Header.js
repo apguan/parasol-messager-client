@@ -1,10 +1,13 @@
 import React from "react";
-import { View, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { Image, TouchableOpacity, StyleSheet } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { HStack, Spacer, Text } from "swiftui-react-native";
 import { useNavigation } from "@react-navigation/native";
 
-export default Header = ({ profileImage, title }) => {
+// the size of the touchable surface
+const HIT_SLOP = { top: 15, bottom: 15, left: 15, right: 10 };
+
+export default Header = ({ profileImage, title, showBorder = true }) => {
   const navigation = useNavigation();
 
   const goBack = () => {
@@ -12,24 +15,25 @@ export default Header = ({ profileImage, title }) => {
   };
 
   return (
-    <HStack alignment="center" style={styles.header}>
-      <TouchableOpacity onPress={goBack}>
+    <HStack
+      alignment="center"
+      style={[styles.header, showBorder && { borderBottomWidth: 1 }]}
+    >
+      <TouchableOpacity hitSlop={HIT_SLOP} onPress={goBack}>
         <FontAwesome name="chevron-left" size={20} color="#999999" />
       </TouchableOpacity>
       <TouchableOpacity>
-        {profileImage ? (
+        {Boolean(profileImage) && (
           <Image
             style={[styles.placeholder]}
             height={40}
             width={40}
             source={{ uri: profileImage }}
           />
-        ) : (
-          <View style={[styles.placeholder]}></View>
         )}
       </TouchableOpacity>
       <Text style={styles.title} fontSize={20} customFont={"satoshi-black"}>
-        Bored and Hungry
+        {Boolean(title) && title}
       </Text>
       <Spacer />
     </HStack>
@@ -44,7 +48,6 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     alignContent: "flex-start",
     backgroundColor: "white",
-    borderBottomWidth: 1,
     borderColor: "#E5E7EB",
   },
   title: {

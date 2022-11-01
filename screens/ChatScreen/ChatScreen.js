@@ -3,8 +3,8 @@ import { SafeAreaView, StyleSheet } from "react-native";
 import { VStack } from "swiftui-react-native";
 
 import Header from "../../components/Header";
-import ChatWindow from "../../components/ChatWindow";
-import ChatInput from "../../components/ChatInput";
+import ChatWindow from "../../components/ChatView/ChatWindow";
+import ChatInput from "../../components/ChatView/ChatInput";
 
 export default ChatScreen = () => {
   return (

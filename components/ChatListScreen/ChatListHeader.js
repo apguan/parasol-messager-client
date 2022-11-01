@@ -1,13 +1,20 @@
 import React from "react";
 import { View, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { HStack, Spacer, Text } from "swiftui-react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const PERSON = require("../../assets/add_person.png");
 
 export default ChatListHeader = ({ profileImage }) => {
+  const navigation = useNavigation();
+
+  const goToProfile = () => {
+    navigation.navigate("ProfileScreen");
+  };
+
   return (
     <HStack alignment="center" style={styles.header}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={goToProfile}>
         {profileImage ? (
           <Image
             style={[styles.placeholder, styles.profileIcon]}

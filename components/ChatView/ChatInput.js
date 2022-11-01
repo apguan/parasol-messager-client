@@ -125,7 +125,7 @@ export default ChatInput = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS == "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={50}
+      keyboardVerticalOffset={60}
       style={styles.keyboardAvoidance}
     >
       <Animated.View style={[styles.textBarContainer, inputBarStyle]}>

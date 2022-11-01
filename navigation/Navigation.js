@@ -10,9 +10,7 @@ import Verify from "../screens/Onboarding/Verify";
 // Authenticated 
 import HomeScreen from '../screens/HomeScreen/HomeScreen'
 import ChatScreen from "../screens/ChatScreen/ChatScreen";
-
-import ProfileScreen from "../screens/Profile";
-import MessagesScreen from "../screens/Messages";
+import ProfileScreen from "../screens/ProfileScreen";
 
 const OnboardingStack = createNativeStackNavigator();
 const AuthedStack = createNativeStackNavigator();
@@ -43,6 +41,7 @@ export const RootNavigator = () => {
     >
       <AuthedStack.Screen name="HomeScreen" component={HomeScreen} />
       <AuthedStack.Screen name="ChatScreen" component={ChatScreen} />
+      <AuthedStack.Screen name="ProfileScreen" component={ProfileScreen} />
     </AuthedStack.Navigator>
   );
 };

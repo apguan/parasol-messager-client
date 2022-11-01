@@ -43,9 +43,7 @@ export default ChatPreview = ({
               {name}
             </Text>
             <Spacer />
-            <Text style={[styles.timeStyle, styles.textDropShadow]}>
-              {time ? time : "00:00 AM"}
-            </Text>
+            <Text style={[styles.timeStyle]}>{time ? time : "00:00 AM"}</Text>
           </HStack>
           <HStack>
             <Text
@@ -62,14 +60,10 @@ export default ChatPreview = ({
             <View
               style={[
                 styles.unreadNotificationContainer,
-                styles.dropShadow,
                 { opacity: unreadCount ? 1 : 0 },
               ]}
             >
-              <Text
-                style={[styles.notificationText, styles.textDropShadow]}
-                fontSize={6}
-              >
+              <Text style={[styles.notificationText]} fontSize={6}>
                 {unreadCount}
               </Text>
             </View>
@@ -86,23 +80,6 @@ const styles = StyleSheet.create({
     width: 350,
     marginVertical: 7.5,
     marginHorizontal: 20,
-  },
-  dropShadow: {
-    shadowOffset: {
-      width: 1,
-      height: 4,
-    },
-    shadowColor: "black",
-    shadowOpacity: 0.25,
-    shadowRadius: 3,
-  },
-  textDropShadow: {
-    textShadowOffset: {
-      width: 4,
-      height: 4,
-    },
-    textShadowColor: "rgba(0, 0, 0, 0.25)",
-    textShadowRadius: 20,
   },
   profile: {
     height: 48,
