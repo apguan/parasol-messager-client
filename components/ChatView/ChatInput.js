@@ -61,7 +61,8 @@ export default ChatInput = () => {
   });
 
   const keyboardAvoidanceDistance = useMemo(
-    () => 20 + DimensionsStyle.bottomAreaHeight,
+    // (height of input / 2)+ vertical margin + spacing
+    () => 26 + DimensionsStyle.bottomAreaHeight,
     [DimensionsStyle.bottomAreaHeight]
   );
 
@@ -222,7 +223,7 @@ const styles = StyleSheet.create({
     borderRadius: 70,
     height: 32,
     width: 32,
-    left: 345,
+    right: 10,
     bottom: 0,
     marginBottom: 10,
     justifyContent: "center",

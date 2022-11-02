@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import Animated from "react-native-reanimated";
 import { Entypo } from "@expo/vector-icons";
 import { VStack } from "swiftui-react-native";
@@ -21,7 +21,7 @@ import Support from "../assets/icons/support.svg";
 
 export default Profile = ({}) => {
   return (
-    <SafeAreaView style={styles.container}>
+    <Animated.View style={styles.container}>
       <Header showBorder={false} />
       <Animated.ScrollView style={styles.scrollView}>
         <VStack>
@@ -98,15 +98,18 @@ export default Profile = ({}) => {
             <SettingsRow icon={<Trashcan />} title={"Delete account"} />
             <SettingsRow icon={<Logout />} title={"Log out"} />
           </SettingsSubcategory>
+
+          <View style={styles.footer} />
         </VStack>
       </Animated.ScrollView>
-    </SafeAreaView>
+    </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 48,
     alignItems: "center",
     backgroundColor: "white",
   },
@@ -115,5 +118,8 @@ const styles = StyleSheet.create({
   },
   spacer: {
     height: 20,
+  },
+  footer: {
+    height: 75,
   },
 });
