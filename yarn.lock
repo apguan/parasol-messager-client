@@ -2874,6 +2874,11 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
+"@types/retry@0.12.0":
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/@types/retry/-/retry-0.12.0.tgz#2b35eccfcee7d38cd72ad99232fbd58bffb3c84d"
+  integrity sha512-wWKOClTTiizcZhXnPY4wikVAwmdYHp8q6DmC+EJUzAMsycb7HB32Kh9RN4+0gExjmPmZSAQjgURXIGATPegAvA==
+
 "@types/scheduler@*":
   version "0.16.2"
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.2.tgz#1a62f89525723dde24ba1b01b092bf5df8ad4d39"
@@ -3384,6 +3389,11 @@ aggregate-error@^3.0.0:
   dependencies:
     clean-stack "^2.0.0"
     indent-string "^4.0.0"
+
+another-json@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/another-json/-/another-json-0.2.0.tgz#b5f4019c973b6dd5c6506a2d93469cb6d32aeedc"
+  integrity sha512-/Ndrl68UQLhnCdsAzEXLMFuOR546o2qbYRqCglaNHbjXrwG1ayTcdwr3zkSGOGtGXDyR5X9nCFfnyG2AFJIsqg==
 
 anser@^1.4.9:
   version "1.4.10"
@@ -4523,7 +4533,7 @@ constants-browserify@^1.0.0:
   resolved "https://registry.yarnpkg.com/constants-browserify/-/constants-browserify-1.0.0.tgz#c20b96d8c617748aaf1c16021760cd27fcb8cb75"
   integrity sha512-xFxOwqIzR/e1k1gLiWEophSCMqXcwVHIH7akf7b/vxcUeGunlj3hvZaaqxwHsTgn+IndtkQJgSztIDWeumWJDQ==
 
-content-type@~1.0.4:
+content-type@^1.0.4, content-type@~1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/content-type/-/content-type-1.0.4.tgz#e138cc75e040c727b1966fe5e5f8c9aee256fe3b"
   integrity sha512-hIP3EEPs8tB9AT1L+NUqtwOAps4mk2Zob89MWXMHjHWg9milF/j4osnnQLXBCBFBk/tvIG/tUc9mOUJiPBhPXA==
@@ -7292,7 +7302,7 @@ logkitty@^0.7.1:
     dayjs "^1.8.15"
     yargs "^15.1.0"
 
-loglevel@^1.8.0:
+loglevel@^1.7.1, loglevel@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.8.0.tgz#e7ec73a57e1e7b419cb6c6ac06bf050b67356114"
   integrity sha512-G6A/nJLRgWOuuwdNuA6koovfEV1YpqqAG4pRUlFaz3jj2QNZ8M4vBqnVA+HBTmU/AMNUtlOsMmSpF6NyOjztbA==
@@ -7337,6 +7347,26 @@ map-visit@^1.0.0:
   integrity sha512-4y7uGv8bd2WdM9vpQsiQNo41Ln1NvhvDRuVt0k2JZQ+ezN2uaQes7lZeZ+QQUHOLQAtDaBJ+7wCbi+ab/KFs+w==
   dependencies:
     object-visit "^1.0.0"
+
+matrix-events-sdk@^0.0.1-beta.7:
+  version "0.0.1-beta.7"
+  resolved "https://registry.yarnpkg.com/matrix-events-sdk/-/matrix-events-sdk-0.0.1-beta.7.tgz#5ffe45eba1f67cc8d7c2377736c728b322524934"
+  integrity sha512-9jl4wtWanUFSy2sr2lCjErN/oC8KTAtaeaozJtrgot1JiQcEI4Rda9OLgQ7nLKaqb4Z/QUx/fR3XpDzm5Jy1JA==
+
+matrix-js-sdk@^21.0.1:
+  version "21.0.1"
+  resolved "https://registry.yarnpkg.com/matrix-js-sdk/-/matrix-js-sdk-21.0.1.tgz#4ba88505a1b96b4d23288066865b67ccc17079a0"
+  integrity sha512-xrJibvMwj38fMeNX7e9kfEzR9xv5UNwWkYGlyQE+ag81HGLacbJvEix/2zkEQ40TypB9ENVioVFIyVYGN9Rv2Q==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+    another-json "^0.2.0"
+    bs58 "^5.0.0"
+    content-type "^1.0.4"
+    loglevel "^1.7.1"
+    matrix-events-sdk "^0.0.1-beta.7"
+    p-retry "4"
+    qs "^6.9.6"
+    unhomoglyph "^1.0.6"
 
 md5-file@^3.2.3:
   version "3.2.3"
@@ -8278,6 +8308,14 @@ p-map@^4.0.0:
   dependencies:
     aggregate-error "^3.0.0"
 
+p-retry@4:
+  version "4.6.2"
+  resolved "https://registry.yarnpkg.com/p-retry/-/p-retry-4.6.2.tgz#9baae7184057edd4e17231cee04264106e092a16"
+  integrity sha512-312Id396EbJdvRONlngUx0NydfrIQ5lsYu0znKVUzVvArzEIt08V1qhtyESbGVd1FGX7UKtiFp5uwKZdM8wIuQ==
+  dependencies:
+    "@types/retry" "0.12.0"
+    retry "^0.13.1"
+
 p-try@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/p-try/-/p-try-2.2.0.tgz#cb2868540e313d61de58fafbe35ce9004d5540e6"
@@ -8648,7 +8686,7 @@ qs@6.9.1:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.9.1.tgz#20082c65cb78223635ab1a9eaca8875a29bf8ec9"
   integrity sha512-Cxm7/SS/y/Z3MHWSxXb8lIFqgqBowP5JMlTUFyJN88y0SGQhVmZnqFK/PeuMX9LzUyWsqqhNxIyg0jlzq946yA==
 
-qs@^6.9.1:
+qs@^6.9.1, qs@^6.9.6:
   version "6.11.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.11.0.tgz#fd0d963446f7a65e1367e01abd85429453f0c37a"
   integrity sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==
@@ -9348,6 +9386,11 @@ ret@~0.1.10:
   version "0.1.15"
   resolved "https://registry.yarnpkg.com/ret/-/ret-0.1.15.tgz#b8a4825d5bdb1fc3f6f53c2bc33f81388681c7bc"
   integrity sha512-TTlYpa+OL+vMMNG24xSlQGEJ3B/RzEfUlLct7b5G/ytav+wPrplCpVMFuwzXbkecJrb6IYo1iFb0S9v37754mg==
+
+retry@^0.13.1:
+  version "0.13.1"
+  resolved "https://registry.yarnpkg.com/retry/-/retry-0.13.1.tgz#185b1587acf67919d63b357349e03537b2484658"
+  integrity sha512-XQBQ3I8W1Cge0Seh+6gjj03LbmRFWuoszgK9ooCpwYIrhhoO80pfq4cUkU5DkknwfOfFteRwlZ56PYOGYyFWdg==
 
 reusify@^1.0.4:
   version "1.0.4"
@@ -10454,6 +10497,11 @@ unbox-primitive@^1.0.2:
     has-bigints "^1.0.2"
     has-symbols "^1.0.3"
     which-boxed-primitive "^1.0.2"
+
+unhomoglyph@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/unhomoglyph/-/unhomoglyph-1.0.6.tgz#ea41f926d0fcf598e3b8bb2980c2ddac66b081d3"
+  integrity sha512-7uvcWI3hWshSADBu4JpnyYbTVc7YlhF5GDW/oPD5AxIxl34k4wXR3WDkPnzLxkN32LiTCTKMQLtKVZiwki3zGg==
 
 unicode-canonical-property-names-ecmascript@^2.0.0:
   version "2.0.0"

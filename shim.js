@@ -4,11 +4,20 @@ if (typeof process === "undefined") {
   global.process = require("process");
 } else {
   const bProcess = require("process");
-  for (var p in bProcess) {
+  for (let p in bProcess) {
     if (!(p in process)) {
       process[p] = bProcess[p];
     }
   }
+}
+
+// shim Intl for Matrix.js
+if (typeof global.Intl === "undefined") {
+  global.Intl = {};
+  global.Intl.Collator = function () {};
+  global.Intl.Collator.prototype.compare = function (a, b) {
+    return a.localeCompare(b);
+  };
 }
 
 process.browser = false;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Animated, {
   ZoomInRotate,
   ZoomOutRotate,
@@ -17,8 +17,9 @@ import {
   Platform,
   StyleSheet,
 } from "react-native";
-
 import { Feather, AntDesign, Entypo } from "@expo/vector-icons";
+
+import { DimensionsStyle } from "../../theme";
 
 const AnimatedTouchableOpacity =
   Animated.createAnimatedComponent(TouchableOpacity);
@@ -58,6 +59,11 @@ export default ChatInput = () => {
     grow: 300,
     shrink: 295,
   });
+
+  const keyboardAvoidanceDistance = useMemo(
+    () => 20 + DimensionsStyle.bottomAreaHeight,
+    [DimensionsStyle.bottomAreaHeight]
+  );
 
   const [message, setMessage] = useState("");
   const showIconTray = Boolean(!message.length);
@@ -125,7 +131,7 @@ export default ChatInput = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS == "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={60}
+      keyboardVerticalOffset={keyboardAvoidanceDistance}
       style={styles.keyboardAvoidance}
     >
       <Animated.View style={[styles.textBarContainer, inputBarStyle]}>
@@ -216,7 +222,7 @@ const styles = StyleSheet.create({
     borderRadius: 70,
     height: 32,
     width: 32,
-    left: 349,
+    left: 345,
     bottom: 0,
     marginBottom: 10,
     justifyContent: "center",

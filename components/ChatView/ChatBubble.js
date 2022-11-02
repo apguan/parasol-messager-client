@@ -1,10 +1,10 @@
-import React from "react";
+import React, { memo } from "react";
 import { StyleSheet } from "react-native";
 
 import { Text, View } from "react-native-animatable";
 import { VStack } from "swiftui-react-native";
 
-export default ChatBubble = ({ message, sender, isSender }) => {
+const ChatBubble = ({ message, sender, isSender }) => {
   return (
     <VStack
       style={styles.container}
@@ -46,3 +46,5 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
 });
+
+export default memo(ChatBubble);

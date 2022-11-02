@@ -3,6 +3,9 @@
 import "./shim";
 import "@ethersproject/shims";
 
+//shim for `Error: URLSearchParams.set is not implemented`
+import "react-native-url-polyfill/auto";
+
 import { registerRootComponent } from "expo";
 
 import App from "./App";

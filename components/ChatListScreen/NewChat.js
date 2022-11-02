@@ -123,8 +123,8 @@ const styles = StyleSheet.create({
     color: "#979797",
   },
   listContainer: {
-    top: 120,
-    height: 370,
+    top: "20%",
+    height: "55%",
     width: "100%",
     flexGrow: 0,
   },
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     position: "absolute",
-    top: 721,
+    bottom: "5%",
     backgroundColor: "#7069E9",
     justifyContent: "center",
     alignContent: "center",
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
   },
   createButtonContainer: {
     position: "absolute",
-    top: 630,
+    bottom: "5%",
     borderRadius: 20,
     marginHorizontal: 20,
     backgroundColor: "#7069E9",
