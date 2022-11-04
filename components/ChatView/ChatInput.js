@@ -1,7 +1,6 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import Animated, {
   ZoomInRotate,
-  ZoomOutRotate,
   useAnimatedStyle,
   useSharedValue,
   Easing,
@@ -17,9 +16,9 @@ import {
   Platform,
   StyleSheet,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feather, AntDesign, Entypo } from "@expo/vector-icons";
-
-import { DimensionsStyle } from "../../theme";
+import { Spacer } from "swiftui-react-native";
 
 const AnimatedTouchableOpacity =
   Animated.createAnimatedComponent(TouchableOpacity);
@@ -41,7 +40,6 @@ const AnimatedButtons = ({ children, style, onPress = () => {} }) => {
     <AnimatedTouchableOpacity
       style={[style ? style : styles.trayIcons]}
       entering={ZoomInRotate.duration(300).damping(20)}
-      exiting={ZoomOutRotate.duration(300)}
       onPress={onPress}
     >
       {children}
@@ -50,20 +48,18 @@ const AnimatedButtons = ({ children, style, onPress = () => {} }) => {
 };
 
 export default ChatInput = () => {
+  const insets = useSafeAreaInsets();
+
   const textInputHeight = useSharedValue(0);
   const animatedInputStyle = useSharedValue({
-    grow: 240,
-    shrink: 245,
-  });
-  const animatedInputContainerStyle = useSharedValue({
-    grow: 300,
-    shrink: 295,
+    shrink: "80%",
+    grow: "83%",
   });
 
-  const keyboardAvoidanceDistance = useMemo(
-    () => 20 + DimensionsStyle.bottomAreaHeight,
-    [DimensionsStyle.bottomAreaHeight]
-  );
+  const animatedInputContainerStyle = useSharedValue({
+    shrink: "76%",
+    grow: "78%",
+  });
 
   const [message, setMessage] = useState("");
   const showIconTray = Boolean(!message.length);
@@ -83,13 +79,9 @@ export default ChatInput = () => {
 
   const inputContainerStyle = useAnimatedStyle(() => {
     return {
-      left: withTiming(message.length ? 40 : 80),
       width: message.length
-        ? withTiming(animatedInputContainerStyle.value.grow, DURATION)
-        : withTiming(animatedInputContainerStyle.value.shrink, {
-            duration: 400,
-            easing: Easing.inOut(Easing.quad),
-          }),
+        ? withTiming(animatedInputContainerStyle.value.shrink, DURATION)
+        : withTiming(animatedInputContainerStyle.value.grow, DURATION),
     };
   });
 
@@ -104,17 +96,14 @@ export default ChatInput = () => {
     return {
       width: message.length
         ? withTiming(animatedInputStyle.value.grow, DURATION)
-        : withTiming(animatedInputStyle.value.shrink, {
-            duration: 400,
-            easing: Easing.inOut(Easing.quad),
-          }),
+        : withTiming(animatedInputStyle.value.shrink, DURATION),
       height: withSpring(growContainer, SPRING_CONFIG),
     };
   });
 
   const stickerStyle = useAnimatedStyle(() => {
     return {
-      left: withTiming(message.length ? 309 : 344),
+      left: withTiming(message.length ? "79.5%" : "89.5%", { duration: 200 }),
     };
   });
 
@@ -131,10 +120,11 @@ export default ChatInput = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS == "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={keyboardAvoidanceDistance}
+      keyboardVerticalOffset={insets.top}
       style={styles.keyboardAvoidance}
     >
       <Animated.View style={[styles.textBarContainer, inputBarStyle]}>
+        <Spacer />
         <Animated.View style={[styles.tray]}>
           {showIconTray ? (
             <>
@@ -164,11 +154,15 @@ export default ChatInput = () => {
         <AnimatedTouchableOpacity style={[styles.stickerButton, stickerStyle]}>
           <AntDesign name="smileo" size={24} color="#896BFF" />
         </AnimatedTouchableOpacity>
+
+        {/* Wrapping is <Spacer /> keeps it equal on both sides */}
+        <Spacer />
         {!showIconTray && (
           <AnimatedButtons style={[styles.sendButton]} onPress={onSendPress}>
             <AntDesign name="arrowup" size={24} color="white" />
           </AnimatedButtons>
         )}
+        <Spacer />
       </Animated.View>
     </KeyboardAvoidingView>
   );
@@ -180,28 +174,22 @@ const styles = StyleSheet.create({
   },
   tray: {
     flexDirection: "row",
-    position: "absolute",
-    bottom: 0,
+    alignSelf: "flex-end",
     marginBottom: 8,
-    marginHorizontal: 5,
   },
   textBarContainer: {
     zIndex: 5,
-    backgroundColor: "white",
+    width: "100%",
     elevation: 5,
-    width: 387,
     height: 48,
     maxHeight: 260,
-    marginHorizontal: 20,
     flexDirection: "row",
     alignItems: "center",
   },
   textInputContainer: {
-    left: 34,
     marginVertical: 6,
     minHeight: 36,
     bottom: 0,
-    position: "absolute",
     backgroundColor: "white",
     borderColor: "rgba(153, 153, 153, 0.3)",
     borderRadius: 22,
@@ -217,16 +205,14 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
   sendButton: {
-    position: "absolute",
     backgroundColor: "#5048E5",
     borderRadius: 70,
     height: 32,
     width: 32,
-    left: 345,
-    bottom: 0,
-    marginBottom: 10,
     justifyContent: "center",
     alignItems: "center",
+    alignSelf: "flex-end",
+    marginBottom: 8,
   },
   trayIcons: {
     margin: 6,
@@ -235,7 +221,7 @@ const styles = StyleSheet.create({
   },
   stickerButton: {
     position: "absolute",
-    bottom: 0,
-    marginBottom: 13,
+    alignSelf: "flex-end",
+    bottom: 12,
   },
 });

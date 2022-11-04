@@ -85,8 +85,8 @@ const styles = StyleSheet.create({
   flatListSeparator: {
     flex: 1,
     height: 1,
-    width: 290,
-    left: 80,
-    backgroundColor: "#D9D9D9",
+    width: "77%",
+    left: "20%",
+    backgroundColor: "rgba(217, 217, 217, 0.7)",
   },
 });

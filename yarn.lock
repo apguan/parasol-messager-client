@@ -2084,6 +2084,10 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
+"@parasol/icon-library@git+https://apguan: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@github.com/Parasol-App/-parasol-icon-library.git":
+  version "1.0.0"
+  resolved "git+https://apguan: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@github.com/Parasol-App/-parasol-icon-library.git#bfe69cf0debb7cf2a839e08c1ed0f2659a733f1a"
+
 "@react-native-async-storage/async-storage@^1.17.10":
   version "1.17.10"
   resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.17.10.tgz#8d6a4771912be8454a9e215eebd469b1b8e2e638"
@@ -2399,54 +2403,6 @@
     node-fetch "2"
     rpc-websockets "^7.5.0"
     superstruct "^0.14.2"
-
-"@supabase/functions-js@^2.0.0-rc.1":
-  version "2.0.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@supabase/functions-js/-/functions-js-2.0.0-rc.1.tgz#15e85ee22ab58db3f228ac94f338669d6635c6cc"
-  integrity sha512-cYFaSA28NoTREM4ZrHWaxXjElfY0S8umrjoffTbmI4Rgkg8+4raBnQIi52usfr5MuFpy566vhbLNOcP9kNHjOw==
-  dependencies:
-    cross-fetch "^3.1.5"
-
-"@supabase/gotrue-js@^2.0.0-rc.3":
-  version "2.0.0-rc.3"
-  resolved "https://registry.yarnpkg.com/@supabase/gotrue-js/-/gotrue-js-2.0.0-rc.3.tgz#2f6fc17d50ebec64065ea6166ddfa98f87ae866f"
-  integrity sha512-kvE6UaolJ2K1eZ2M7XiliB3Xg2pyWfDZF/WBGb36OsXirrAOdbXRecIxQxtoFYvTRJD8aEpEWrBcozqhQ6wIOA==
-  dependencies:
-    cross-fetch "^3.1.5"
-
-"@supabase/postgrest-js@^1.0.0-rc.1":
-  version "1.0.0-rc.4"
-  resolved "https://registry.yarnpkg.com/@supabase/postgrest-js/-/postgrest-js-1.0.0-rc.4.tgz#26856f1f63d83e3d0e61cafd50aaaf2117b2c84c"
-  integrity sha512-/0E73jHi7mOX0OJlbxdQMk4n3wUJq9WICtHPzWzNHlYdHTfB2GpBsgSLbptRrerQVZ9fI/OZZbEeRNcxw24sgQ==
-  dependencies:
-    cross-fetch "^3.1.5"
-
-"@supabase/realtime-js@^2.0.0-rc.5":
-  version "2.0.0-rc.5"
-  resolved "https://registry.yarnpkg.com/@supabase/realtime-js/-/realtime-js-2.0.0-rc.5.tgz#3a05d68b948002b6aff26c24e2e62a70da57552b"
-  integrity sha512-0JiSJjoTmwleufGzBQwEVamI047jnAiemBk8qOkgwyoLOlfGTQk8XSA7aT023BsGVgRNKZqp/jJJAVBht/Rd2w==
-  dependencies:
-    "@types/phoenix" "^1.5.4"
-    websocket "^1.0.34"
-
-"@supabase/storage-js@^2.0.0-rc.1":
-  version "2.0.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@supabase/storage-js/-/storage-js-2.0.0-rc.1.tgz#78921a41104dbe529279731d1a989d7634703668"
-  integrity sha512-OjPtPuKzhzQW6nO/UdwVJVFrzfFnIWt1u+gTQ4+8t1+IBdn7xDHssDteBPkMCd+fYcbMZrqpggbagoFH3FylXw==
-  dependencies:
-    cross-fetch "^3.1.5"
-
-"@supabase/supabase-js@^2.0.0-rc.7":
-  version "2.0.0-rc.7"
-  resolved "https://registry.yarnpkg.com/@supabase/supabase-js/-/supabase-js-2.0.0-rc.7.tgz#ba5580fe0e632a7ca6bf1f6dfc3d96472757dff6"
-  integrity sha512-u6F1AE1ziEhAkpNddY3CAQrsvwd/uDyPj3gNxW2kf6JgbHxlroblU1SvipH75Lbyrx/PFdu7bRIKoDayJmyb7w==
-  dependencies:
-    "@supabase/functions-js" "^2.0.0-rc.1"
-    "@supabase/gotrue-js" "^2.0.0-rc.3"
-    "@supabase/postgrest-js" "^1.0.0-rc.1"
-    "@supabase/realtime-js" "^2.0.0-rc.5"
-    "@supabase/storage-js" "^2.0.0-rc.1"
-    cross-fetch "^3.1.5"
 
 "@svgr/babel-plugin-add-jsx-attribute@^6.5.1":
   version "6.5.1"
@@ -2809,11 +2765,6 @@
   integrity sha512-Cf63Rv7jCQ0LaL8tNXmEyqTHuIJxRdlS5vMh1mj5voN4+QFhVZnlZruezqpWYDiJ8UTzhP0VmeLXCmBk66YrMQ==
   dependencies:
     "@types/node" "*"
-
-"@types/phoenix@^1.5.4":
-  version "1.5.4"
-  resolved "https://registry.yarnpkg.com/@types/phoenix/-/phoenix-1.5.4.tgz#c08a1da6d7b4e365f6a1fe1ff9aada55f5356d24"
-  integrity sha512-L5eZmzw89eXBKkiqVBcJfU1QGx9y+wurRIEgt0cuLH0hwNtVUxtx+6cu0R2STwWj468sjXyBYPYDtGclUd1kjQ==
 
 "@types/prop-types@*":
   version "15.7.5"
@@ -8965,10 +8916,10 @@ react-native-reanimated@^2.10.0, react-native-reanimated@^2.3.0-beta.1:
     setimmediate "^1.0.5"
     string-hash-64 "^1.0.3"
 
-react-native-safe-area-context@4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-4.3.1.tgz#5cf97b25b395e0d09bc1f828920cd7da0d792ade"
-  integrity sha512-cEr7fknJCToTrSyDCVNg0GRdRMhyLeQa2NZwVCuzEQcWedOw/59ExomjmzCE4rxrKXs6OJbyfNtFRNyewDaHuA==
+react-native-safe-area-context@^4.4.1:
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-4.4.1.tgz#239c60b8a9a80eac70a38a822b04c0f1d15ffc01"
+  integrity sha512-N9XTjiuD73ZpVlejHrUWIFZc+6Z14co1K/p1IFMkImU7+avD69F3y+lhkqA2hN/+vljdZrBSiOwXPkuo43nFQA==
 
 react-native-screens@~3.15.0:
   version "3.15.0"
@@ -10907,7 +10858,7 @@ webidl-conversions@^5.0.0:
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-5.0.0.tgz#ae59c8a00b121543a2acc65c0434f57b0fc11aff"
   integrity sha512-VlZwKPCkYKxQgeSbH5EyngOmRp7Ww7I9rQLERETtf5ofd9pGeswWiOtogpEO850jziPRarreGxn5QIiTqpb2wA==
 
-websocket@^1.0.32, websocket@^1.0.34:
+websocket@^1.0.32:
   version "1.0.34"
   resolved "https://registry.yarnpkg.com/websocket/-/websocket-1.0.34.tgz#2bdc2602c08bf2c82253b730655c0ef7dcab3111"
   integrity sha512-PRDso2sGwF6kM75QykIesBijKSVceR6jL2G8NGYyq2XrItNC2P5/qL5XeR056GhA+Ly7JMFvJb9I312mJfmqnQ==

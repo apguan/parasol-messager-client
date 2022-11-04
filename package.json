@@ -6,7 +6,7 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "postinstall": "./node_modules/.bin/rn-nodeify --hack --install --yarn"
+    "postinstall": "./node_modules/.bin/rn-nodeify --hack --install --yarn && npx pod-install"
   },
   "engine": {
     "node": "v16.14.0",
@@ -17,13 +17,13 @@
     "@ethersproject/shims": "^5.7.0",
     "@expo/vector-icons": "^13.0.0",
     "@gorhom/bottom-sheet": "^4",
+    "@parasol/icon-library": "git+https://apguan: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@github.com/Parasol-App/-parasol-icon-library.git",
     "@react-native-async-storage/async-storage": "^1.17.10",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/bottom-tabs": "^6.3.3",
     "@react-navigation/native": "^6.0.12",
     "@react-navigation/native-stack": "^6.8.0",
     "@react-navigation/stack": "^6.2.3",
-    "@supabase/supabase-js": "^2.0.0-rc.7",
     "@tradle/react-native-http": "^2.0.0",
     "@walletconnect/client": "^1.8.0",
     "@walletconnect/react-native-dapp": "^1.8.0",
@@ -72,7 +72,7 @@
     "react-native-pixel-perfect": "^1.0.2",
     "react-native-randombytes": "^3.0.0",
     "react-native-reanimated": "^2.10.0",
-    "react-native-safe-area-context": "4.3.1",
+    "react-native-safe-area-context": "^4.4.1",
     "react-native-screens": "~3.15.0",
     "react-native-sfsymbols": "^1.2.1",
     "react-native-svg": "9.6.4",

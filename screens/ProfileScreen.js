@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import Animated from "react-native-reanimated";
 import { Entypo } from "@expo/vector-icons";
 import { VStack } from "swiftui-react-native";
@@ -21,7 +21,7 @@ import Support from "../assets/icons/support.svg";
 
 export default Profile = ({}) => {
   return (
-    <SafeAreaView style={styles.container}>
+    <Animated.View style={styles.container}>
       <Header showBorder={false} />
       <Animated.ScrollView style={styles.scrollView}>
         <VStack>
@@ -31,11 +31,13 @@ export default Profile = ({}) => {
               icon={<DisplayName />}
               title={"Display name"}
               content={"ash"}
+              showDivider={true}
             />
             <SettingsRow
               title={"Wallet"}
               icon={<Wallet />}
               content={"0x6ADdeBf14F629F7A736A501175f83939F3050668"}
+              showDivider={true}
               actionButton={
                 <Entypo
                   name="chevron-right"
@@ -64,6 +66,7 @@ export default Profile = ({}) => {
             <SettingsRow
               icon={<Notifications />}
               title={"Notifications"}
+              showDivider={true}
               actionButton={
                 <Entypo
                   name="chevron-right"
@@ -88,25 +91,36 @@ export default Profile = ({}) => {
           <View style={styles.spacer} />
 
           <SettingsSubcategory title={"ACCOUNT & SUPPORT"}>
-            <SettingsRow icon={<Support />} title={"Support"} />
+            <SettingsRow
+              icon={<Support />}
+              title={"Support"}
+              showDivider={true}
+            />
             <SettingsRow icon={<TermsPrivacy />} title={"Terms & privacy"} />
           </SettingsSubcategory>
 
           <View style={styles.spacer} />
 
           <SettingsSubcategory>
-            <SettingsRow icon={<Trashcan />} title={"Delete account"} />
+            <SettingsRow
+              icon={<Trashcan />}
+              title={"Delete account"}
+              showDivider={true}
+            />
             <SettingsRow icon={<Logout />} title={"Log out"} />
           </SettingsSubcategory>
+
+          <View style={styles.footer} />
         </VStack>
       </Animated.ScrollView>
-    </SafeAreaView>
+    </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 48,
     alignItems: "center",
     backgroundColor: "white",
   },
@@ -115,5 +129,8 @@ const styles = StyleSheet.create({
   },
   spacer: {
     height: 20,
+  },
+  footer: {
+    height: 75,
   },
 });
