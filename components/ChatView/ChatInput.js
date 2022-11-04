@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Animated, {
   ZoomInRotate,
-  ZoomOutRotate,
   useAnimatedStyle,
   useSharedValue,
   Easing,
@@ -41,7 +40,6 @@ const AnimatedButtons = ({ children, style, onPress = () => {} }) => {
     <AnimatedTouchableOpacity
       style={[style ? style : styles.trayIcons]}
       entering={ZoomInRotate.duration(300).damping(20)}
-      exiting={ZoomOutRotate.duration(350)}
       onPress={onPress}
     >
       {children}
@@ -54,8 +52,8 @@ export default ChatInput = () => {
 
   const textInputHeight = useSharedValue(0);
   const animatedInputStyle = useSharedValue({
-    grow: "83%",
     shrink: "80%",
+    grow: "83%",
   });
 
   const animatedInputContainerStyle = useSharedValue({
@@ -82,10 +80,7 @@ export default ChatInput = () => {
   const inputContainerStyle = useAnimatedStyle(() => {
     return {
       width: message.length
-        ? withTiming(animatedInputContainerStyle.value.shrink, {
-            duration: 300,
-            easing: Easing.inOut(Easing.quad),
-          })
+        ? withTiming(animatedInputContainerStyle.value.shrink, DURATION)
         : withTiming(animatedInputContainerStyle.value.grow, DURATION),
     };
   });
@@ -101,10 +96,7 @@ export default ChatInput = () => {
     return {
       width: message.length
         ? withTiming(animatedInputStyle.value.grow, DURATION)
-        : withTiming(animatedInputStyle.value.shrink, {
-            duration: 300,
-            easing: Easing.inOut(Easing.quad),
-          }),
+        : withTiming(animatedInputStyle.value.shrink, DURATION),
       height: withSpring(growContainer, SPRING_CONFIG),
     };
   });

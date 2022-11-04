@@ -11,7 +11,7 @@ export default SettingsRow = ({
 }) => {
   return (
     <TouchableOpacity style={[styles.container]}>
-      <HStack style={[showDivider && styles.divider]}>
+      <HStack>
         <View style={styles.icon}>{icon}</View>
         <SwiftText
           style={styles.title}
@@ -20,9 +20,9 @@ export default SettingsRow = ({
         >
           {title}
         </SwiftText>
+        <Spacer />
         {Boolean(content) && (
           <>
-            <Spacer />
             <Text
               style={styles.content}
               numberOfLines={1}
@@ -39,11 +39,15 @@ export default SettingsRow = ({
           </>
         )}
       </HStack>
+      <View style={showDivider && styles.divider} />
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+  },
   icon: {
     height: 26,
     width: 26,
@@ -59,5 +63,11 @@ const styles = StyleSheet.create({
     color: "rgba(0,0,0,0.4)",
     fontFamily: "satoshi-bold",
     textAlign: "right",
+  },
+  divider: {
+    height: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.08)",
+    width: "90%",
+    left: "10%",
   },
 });

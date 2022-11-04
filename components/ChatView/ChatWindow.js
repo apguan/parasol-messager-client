@@ -16,9 +16,11 @@ const ChatWindow = () => {
     handleScrollDown();
   }, []);
 
-  // TODO implement clustering
-  const clusteredMessages = useMemo(() =>
-    MESSAGES.map((msg, idx) => msg).reverse()
+  // TODO: implement clustering to determine the start/end of a group of messages
+  // this will allow us to render in the heads/tails of message bubbles correctly
+  const clusteredMessages = useMemo(
+    () => MESSAGES.map((msg) => msg).reverse(),
+    []
   );
 
   const pauseAutoScroll = ({ nativeEvent }) => {
