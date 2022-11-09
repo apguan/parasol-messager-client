@@ -8,9 +8,9 @@
     <true/>
     <key>EXUpdatesLaunchWaitMs</key>
     <integer>0</integer>
-    <key>EXUpdatesSDKVersion</key>
-    <string>46.0.0</string>
     <key>EXUpdatesURL</key>
-    <string>https://exp.host/@apguan/parasol-messenger-client</string>
+    <string>https://u.expo.dev/f7e6cbe9-120d-4d12-ac87-3e9dba521d4d</string>
+    <key>EXUpdatesRuntimeVersion</key>
+    <string>1.0.0</string>
   </dict>
 </plist>

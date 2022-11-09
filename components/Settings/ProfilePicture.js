@@ -1,8 +1,9 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { VStack } from "swiftui-react-native";
-
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+
+import { HEADER_HEIGHT } from "../../theme";
 
 export default ProfilePicture = ({ image, username, userHandle }) => {
   return (
@@ -27,8 +28,8 @@ const styles = StyleSheet.create({
   },
   editButton: {
     position: "absolute",
-    left: 68,
-    top: 68,
+    left: HEADER_HEIGHT,
+    top: HEADER_HEIGHT,
     height: 32,
     width: 32,
     backgroundColor: "white",

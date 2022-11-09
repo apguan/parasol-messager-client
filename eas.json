@@ -1,0 +1,30 @@
+{
+  "cli": {
+    "version": ">= 2.6.0"
+  },
+  "build": {
+    "development": {
+      "distribution": "internal",
+      "android": {
+        "gradleCommand": ":app:assembleDebug"
+      },
+      "ios": {
+        "buildConfiguration": "Debug"
+      }
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {}
+  },
+  "submit": {
+    "preview": {
+      "ios": {
+        "ascAppId": "6444271953",
+        "appleTeamId": "7Z8PG3ZAHY",
+        "bundleIdentifier": "com.parasol.msg"
+      }
+    },
+    "production": {}
+  }
+}

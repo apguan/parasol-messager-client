@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { View, StyleSheet } from "react-native";
 import Animated from "react-native-reanimated";
 import { Entypo } from "@expo/vector-icons";
 import { VStack } from "swiftui-react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import Header from "../components/Header";
 import ProfilePicture from "../components/Settings/ProfilePicture";
@@ -21,9 +22,12 @@ import Support from "../assets/icons/support.svg";
 
 export default Profile = ({}) => {
   return (
-    <Animated.View style={styles.container}>
-      <Header showBorder={false} />
-      <Animated.ScrollView style={styles.scrollView}>
+    <SafeAreaView style={styles.container}>
+      <Header />
+      <Animated.ScrollView
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+      >
         <VStack>
           <ProfilePicture />
           <SettingsSubcategory title={"PROFILE"}>
@@ -113,14 +117,13 @@ export default Profile = ({}) => {
           <View style={styles.footer} />
         </VStack>
       </Animated.ScrollView>
-    </Animated.View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 48,
     alignItems: "center",
     backgroundColor: "white",
   },
@@ -131,6 +134,6 @@ const styles = StyleSheet.create({
     height: 20,
   },
   footer: {
-    height: 75,
+    height: 50,
   },
 });

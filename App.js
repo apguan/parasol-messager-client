@@ -7,6 +7,10 @@ import { useFonts } from "expo-font";
 import { OnboardingNavigator, RootNavigator } from "./navigation/Navigation.js";
 import WalletConnect from "./crypto/WalletConnect.js";
 
+// Before rendering any navigation stack
+import { enableScreens } from "react-native-screens";
+enableScreens();
+
 export default function App() {
   const [fontsLoaded] = useFonts({
     "satoshi-black": require("./assets/font/Satoshi-Black.otf"),

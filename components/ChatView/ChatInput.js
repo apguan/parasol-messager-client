@@ -49,7 +49,6 @@ const AnimatedButtons = ({ children, style, onPress = () => {} }) => {
 
 export default ChatInput = () => {
   const insets = useSafeAreaInsets();
-
   const textInputHeight = useSharedValue(0);
   const animatedInputStyle = useSharedValue({
     shrink: "80%",
@@ -121,7 +120,7 @@ export default ChatInput = () => {
     <KeyboardAvoidingView
       behavior={Platform.OS == "ios" ? "padding" : "height"}
       keyboardVerticalOffset={insets.top}
-      style={styles.keyboardAvoidance}
+      style={[styles.keyboardAvoidance]}
     >
       <Animated.View style={[styles.textBarContainer, inputBarStyle]}>
         <Spacer />
@@ -171,11 +170,7 @@ export default ChatInput = () => {
 const styles = StyleSheet.create({
   keyboardAvoidance: {
     width: "100%",
-  },
-  tray: {
-    flexDirection: "row",
-    alignSelf: "flex-end",
-    marginBottom: 8,
+    backgroundColor: "rgba(255,255,255,0.93)",
   },
   textBarContainer: {
     zIndex: 5,
@@ -185,6 +180,12 @@ const styles = StyleSheet.create({
     maxHeight: 260,
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
+  },
+  tray: {
+    flexDirection: "row",
+    alignSelf: "flex-end",
+    marginBottom: 8,
   },
   textInputContainer: {
     marginVertical: 6,

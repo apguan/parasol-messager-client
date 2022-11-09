@@ -2,6 +2,7 @@ import React from "react";
 import { View, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { HStack, Spacer, Text } from "swiftui-react-native";
 import { useNavigation } from "@react-navigation/native";
+import { HEADER_HEIGHT } from "../../theme";
 
 const PERSON = require("../../assets/add_person.png");
 
@@ -40,7 +41,7 @@ export default ChatListHeader = ({ profileImage }) => {
 const styles = StyleSheet.create({
   header: {
     width: "100%",
-    height: 68,
+    height: HEADER_HEIGHT,
     paddingHorizontal: 20,
     paddingVertical: 14,
     alignContent: "flex-start",

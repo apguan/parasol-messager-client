@@ -1,12 +1,24 @@
 import React, { memo, useEffect, useMemo, useRef, useState } from "react";
 import Animated from "react-native-reanimated";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 
 import ChatBubble from "./ChatBubble";
 
 import { MESSAGES } from "../../_fixtures/chat-messages";
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
+
+const FlatListChatBubble = ({ item }) => {
+  const isSender = item.sender !== "Parasol Bot";
+
+  return (
+    <ChatBubble
+      message={item.message}
+      sender={item.sender}
+      isSender={isSender}
+    />
+  );
+};
 
 const ChatWindow = () => {
   const flatListRef = useRef();
@@ -36,27 +48,20 @@ const ChatWindow = () => {
     flatListRef.current?.scrollToEnd({ animated: true });
   };
 
+  const handleLayout = () => {
+    scrollUp && handleScrollDown();
+  };
+
   return (
     <>
       <AnimatedFlatList
         ref={flatListRef}
-        onContentSizeChange={handleScrollDown}
-        onLayout={() => scrollUp && handleScrollDown()}
         style={[styles.container]}
+        onContentSizeChange={handleScrollDown}
+        onLayout={handleLayout}
         data={clusteredMessages}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
         onScroll={pauseAutoScroll}
-        renderItem={({ item }) => {
-          const isSender = item.sender !== "Parasol Bot";
-
-          return (
-            <ChatBubble
-              message={item.message}
-              sender={item.sender}
-              isSender={isSender}
-            />
-          );
-        }}
+        renderItem={FlatListChatBubble}
         keyExtractor={(item) => item.id.toString()}
       />
     </>
@@ -65,8 +70,10 @@ const ChatWindow = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width: "90%",
+    width: "100%",
     paddingHorizontal: 20,
+    zIndex: -1,
+    elevation: -1,
   },
   arrowDown: {
     position: "absolute",

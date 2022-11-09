@@ -13,7 +13,8 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/f7e6cbe9-120d-4d12-ac87-3e9dba521d4d"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -32,6 +33,12 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "jsEngine": "hermes"
+    "jsEngine": "hermes",
+    "extra": {
+      "eas": {
+        "projectId": "f7e6cbe9-120d-4d12-ac87-3e9dba521d4d"
+      }
+    },
+    "runtimeVersion": "1.0.0"
   }
 }

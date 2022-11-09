@@ -8,8 +8,8 @@ import Username from "../screens/Onboarding/Username";
 import Verify from "../screens/Onboarding/Verify";
 
 // Authenticated 
-import HomeScreen from '../screens/HomeScreen/HomeScreen'
-import ChatScreen from "../screens/ChatScreen/ChatScreen";
+import HomeScreen from "../screens/HomeScreen";
+import ChatScreen from "../screens/ChatScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 
 const OnboardingStack = createNativeStackNavigator();

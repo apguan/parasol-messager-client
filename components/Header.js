@@ -3,11 +3,17 @@ import { Image, TouchableOpacity, StyleSheet } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { HStack, Spacer, Text } from "swiftui-react-native";
 import { useNavigation } from "@react-navigation/native";
+import { HEADER_HEIGHT } from "../theme";
 
 // the size of the touchable surface
 const HIT_SLOP = { top: 15, bottom: 15, left: 15, right: 10 };
 
-export default Header = ({ profileImage, title, showBorder = true }) => {
+export default Header = ({
+  profileImage,
+  title,
+  showBorder = false,
+  style = {},
+}) => {
   const navigation = useNavigation();
 
   const goBack = () => {
@@ -17,7 +23,7 @@ export default Header = ({ profileImage, title, showBorder = true }) => {
   return (
     <HStack
       alignment="center"
-      style={[styles.header, showBorder && { borderBottomWidth: 1 }]}
+      style={[styles.header, style, showBorder && { borderBottomWidth: 1 }]}
     >
       <TouchableOpacity hitSlop={HIT_SLOP} onPress={goBack}>
         <FontAwesome name="chevron-left" size={20} color="#999999" />
@@ -43,11 +49,10 @@ export default Header = ({ profileImage, title, showBorder = true }) => {
 const styles = StyleSheet.create({
   header: {
     width: "100%",
-    height: 68,
+    height: HEADER_HEIGHT,
     paddingHorizontal: 20,
     paddingVertical: 14,
     alignContent: "flex-start",
-    backgroundColor: "white",
     borderColor: "#E5E7EB",
   },
   title: {
