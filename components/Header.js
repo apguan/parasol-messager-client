@@ -12,6 +12,7 @@ export default Header = ({
   profileImage,
   title,
   showBorder = false,
+  action = () => {},
   style = {},
 }) => {
   const navigation = useNavigation();
@@ -28,7 +29,7 @@ export default Header = ({
       <TouchableOpacity hitSlop={HIT_SLOP} onPress={goBack}>
         <FontAwesome name="chevron-left" size={20} color="#999999" />
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={action}>
         {Boolean(profileImage) && (
           <Image
             style={[styles.placeholder]}

@@ -11,6 +11,7 @@ import Verify from "../screens/Onboarding/Verify";
 import HomeScreen from "../screens/HomeScreen";
 import ChatScreen from "../screens/ChatScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import ChatDetails from "../screens/ChatDetails";
 
 const OnboardingStack = createNativeStackNavigator();
 const AuthedStack = createNativeStackNavigator();
@@ -34,7 +35,7 @@ export const OnboardingNavigator = () => {
 export const RootNavigator = () => {
   return (
     <AuthedStack.Navigator
-      initialRouteName="HomeScreen"
+      initialRouteName="ChatDetails"
       screenOptions={{
         headerShown: false,
       }}
@@ -42,6 +43,7 @@ export const RootNavigator = () => {
       <AuthedStack.Screen name="HomeScreen" component={HomeScreen} />
       <AuthedStack.Screen name="ChatScreen" component={ChatScreen} />
       <AuthedStack.Screen name="ProfileScreen" component={ProfileScreen} />
+      <AuthedStack.Screen name="ChatDetails" component={ChatDetails} />
     </AuthedStack.Navigator>
   );
 };

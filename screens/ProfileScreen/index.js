@@ -5,20 +5,20 @@ import { Entypo } from "@expo/vector-icons";
 import { VStack } from "swiftui-react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import Header from "../components/Header";
-import ProfilePicture from "../components/Settings/ProfilePicture";
-import SettingsSubcategory from "../components/Settings/SettingsSubcategory";
-import SettingsRow from "../components/Settings/SettingsRow";
+import Header from "../../components/Header";
+import ProfilePicture from "../../components/Settings/ProfilePicture";
+import SettingsSubcategory from "../../components/Settings/SettingsSubcategory";
+import SettingsRow from "../../components/Settings/SettingsRow";
 
-import DisplayName from "../assets/icons/display_name.svg";
-import Friends from "../assets/icons/friends.svg";
-import Logout from "../assets/icons/logout.svg";
-import Notifications from "../assets/icons/notifications.svg";
-import SoundHaptics from "../assets/icons/sound_haptics.svg";
-import TermsPrivacy from "../assets/icons/terms_privacy.svg";
-import Trashcan from "../assets/icons/trashcan.svg";
-import Wallet from "../assets/icons/wallet.svg";
-import Support from "../assets/icons/support.svg";
+import DisplayName from "../../assets/icons/display_name.svg";
+import Friends from "../../assets/icons/friends.svg";
+import Logout from "../../assets/icons/logout.svg";
+import Notifications from "../../assets/icons/notifications.svg";
+import SoundHaptics from "../../assets/icons/sound_haptics.svg";
+import TermsPrivacy from "../../assets/icons/terms_privacy.svg";
+import Trashcan from "../../assets/icons/trashcan.svg";
+import Wallet from "../../assets/icons/wallet.svg";
+import Support from "../../assets/icons/support.svg";
 
 export default Profile = ({}) => {
   return (
