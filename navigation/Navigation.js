@@ -35,7 +35,7 @@ export const OnboardingNavigator = () => {
 export const RootNavigator = () => {
   return (
     <AuthedStack.Navigator
-      initialRouteName="ChatDetails"
+      initialRouteName="HomeScreen"
       screenOptions={{
         headerShown: false,
       }}

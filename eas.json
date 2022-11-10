@@ -15,13 +15,27 @@
     "preview": {
       "distribution": "internal"
     },
+    "adhoc_devices": {
+      "distribution": "internal",
+      "releaseChannel": "internal_distribution"
+    },
     "production": {}
   },
   "submit": {
     "preview": {
       "ios": {
-        "ascAppId": "6444271953",
         "appleTeamId": "7Z8PG3ZAHY",
+        "ascAppId": "6444271953",
+        "bundleIdentifier": "com.parasol.msg"
+      }
+    },
+    "adhoc_devices": {
+      "extends": "internal_distribution"
+    },
+    "internal_distribution": {
+      "ios": {
+        "appleTeamId": "7Z8PG3ZAHY",
+        "ascAppId": "6444271953",
         "bundleIdentifier": "com.parasol.msg"
       }
     },
