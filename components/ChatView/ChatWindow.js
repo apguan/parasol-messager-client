@@ -71,7 +71,6 @@ const ChatWindow = () => {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    paddingHorizontal: 20,
     zIndex: -1,
     elevation: -1,
   },

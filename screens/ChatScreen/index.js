@@ -7,11 +7,25 @@ import Header from "../../components/Header";
 import ChatWindow from "../../components/ChatView/ChatWindow";
 import ChatInput from "../../components/ChatView/ChatInput";
 
-export default ChatScreen = () => {
+export default ChatScreen = ({ navigation, route }) => {
+  const { isOnline, name, profileImage } = route?.params;
+
+  const navigateToChatdetail = () => {
+    navigation.navigate("ChatDetails", {
+      isOnline,
+      name,
+      profileImage,
+    });
+  };
+
   return (
     <SafeAreaView style={[styles.container]}>
       <VStack>
-        <Header />
+        <Header
+          profileImage={profileImage}
+          title={name}
+          action={navigateToChatdetail}
+        />
         <ChatWindow />
         <ChatInput />
       </VStack>

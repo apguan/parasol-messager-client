@@ -16,7 +16,11 @@ export default ChatPreview = ({
 
   const onChangeNavigation = () => {
     // TODO: need to inject props here to allow for appropriate transition
-    navigation.navigate("ChatScreen");
+    navigation.navigate("ChatScreen", {
+      profileImage,
+      name,
+      isOnline,
+    });
   };
 
   return (

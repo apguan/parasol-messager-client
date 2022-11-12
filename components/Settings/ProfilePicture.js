@@ -1,17 +1,37 @@
 import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { VStack } from "swiftui-react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { HEADER_HEIGHT } from "../../theme";
 
-export default ProfilePicture = ({ image, username, userHandle }) => {
+export default ProfilePicture = ({
+  profileImage,
+  username,
+  userHandle,
+  isEditable,
+}) => {
   return (
     <VStack style={styles.container}>
-      <View style={styles.picture}></View>
-      <TouchableOpacity activeOpacity={0.8} style={styles.editButton}>
-        <MaterialCommunityIcons name="pencil-outline" size={20} color="black" />
-      </TouchableOpacity>
+      {profileImage ? (
+        <Image
+          style={styles.picture}
+          height={100}
+          width={100}
+          source={{ uri: profileImage }}
+        />
+      ) : (
+        <View style={styles.picture}></View>
+      )}
+      {isEditable && (
+        <TouchableOpacity activeOpacity={0.8} style={styles.editButton}>
+          <MaterialCommunityIcons
+            name="pencil-outline"
+            size={20}
+            color="black"
+          />
+        </TouchableOpacity>
+      )}
       <Text style={styles.username}>{username || "Placeholder Name"}</Text>
       <Text style={styles.userHandle}>{userHandle || "@placholder"}</Text>
     </VStack>

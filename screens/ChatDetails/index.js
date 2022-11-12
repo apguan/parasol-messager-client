@@ -16,13 +16,19 @@ import Mute from "../../assets/icons/mute_chat.svg";
 import LeaveGroup from "../../assets/icons/leave_group.svg";
 import Animated from "react-native-reanimated";
 
-export default ChatDetails = () => {
+export default ChatDetails = ({ route, navigation }) => {
+  const { name, profileImage, isOnline } = route?.params;
+
   return (
     <SafeAreaView>
       <Header />
       <Animated.View spacer={styles.container}>
         <VStack>
-          <ProfilePicture />
+          <ProfilePicture
+            profileImage={profileImage}
+            username={name}
+            isEditable={false}
+          />
           <SettingsSubcategory>
             <SettingsRow
               icon={<Members />}
